@@ -1,0 +1,1850 @@
+\documentclass{book}
+
+\usepackage{amsmath,amssymb,amsthm}
+\newtheorem{definition}{Definition}
+\newtheorem{exercise}{Exercise}
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{example}{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+\newenvironment{solution}
+{\begin{proof}[Solution]}
+{\end{proof}}
+
+% --- Page setup ---
+\usepackage[a4paper,margin=1.2cm]{geometry}
+\usepackage{pdflscape}
+\vfuzz=200pt
+
+% --- TikZ for mind maps ---
+\usepackage{tikz}
+\usetikzlibrary{mindmap,trees}
+
+% --- REQUIRED style (CRITICAL) ---
+\tikzset{
+  concept/.style={
+    draw,
+    circle,
+    align=center,
+    fill=blue!20,
+    minimum size=1.8cm
+  }
+}
+
+\usepackage{background}
+
+\backgroundsetup{
+  scale=1,
+  color=blue,
+  opacity=0.10,   % transparency
+  angle=0,
+  position=current page.center,
+  vshift=0cm,
+  hshift=0cm,
+  contents={
+    \includegraphics[width=0.6\paperwidth]{OM.png}
+  }
+}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\geometry{margin=1in}
+\setlength{\parskip}{0.6em}
+
+\usepackage{graphicx}
+\usepackage{titling}
+
+\pretitle{
+  \begin{center}
+  \includegraphics[width=4cm]{IITK LOGO.png}\\[1cm]}
+\posttitle{ \end{center}}
+
+
+\title{\textbf{SEVERAL VARIABLES AND DIFFERENTIAL GEOMETRY }}
+\author{\textbf{\textit{DINESH KUMAR}}}
+\date{ MARCH 2026}
+
+\begin{document}
+\maketitle
+\newpage
+\thispagestyle{empty}
+
+\begin{center}
+\vspace*{\fill}
+\textbf{\textit{This Page Left Blank Intentionally}}
+\vspace*{\fill}
+\end{center}
+
+\newpage
+\begin{center}
+{\LARGE \textbf{\textit{Summary of lectures}}}
+\end{center}
+
+\vspace{1cm}
+
+The fundamental idea of calculus is ``local approximation'' of functions by linear functions. This idea is completely obscured in the traditional treatment of single variable calculus, where the derivative of a function at a point is defined as a real number obtained as the limit of the difference quotient. Not only does this fail to reflect the true essence of the concept of the derivative of a function at a point, also the expression $\lim_{x \to a} \frac{f(x)-f(a)}{x-a}$ where $f$ is a real valued function defined on an open interval in R containing the point $a$, does not extend to functions of several variables.
+
+\vspace{1cm}
+
+Since the concept of a derivative must be intrinsic, a general framework is necessary. Henceforth, we adopt a ``geometric'' perspective on analysis, aiming to remain as close as possible to the fundamental idea of calculus.
+
+
+\begin{center}
+{\LARGE \textbf{\textit{*****}}}
+\end{center}
+Let $K := \mathbb{R}$ or $\mathbb{C}$, and $E$ and $F$ are Banach spaces over $K$. Suppose that $U \subseteq E$ is an open subset of $E$ and $f, g : U \to F$. We say that $f$ and $g$ are \textit{tangential to each other at $a \in U$}, or simply \textit{tangent at $a$}, if
+
+\[
+\lim_{x \to a} \frac{\|f(x) - g(x)\|}{\|x - a\|} = 0.
+\]
+
+\textit{\textbf{Note:}} Being tangential to each other at a given point remains unaffected if equivalent norms replace one or both of the norms.
+
+\vspace{1cm}
+
+\textbf{Definition 1:} A function $f : U \to F$ is said to be differentiable at $a \in U$ if there exists a continuous linear map $A : E \to F$ such that the function $x \mapsto f(a) + A(x - a)$ is tangential to $f$ at $a$, i.e.,
+
+\[
+\lim_{x \to a} \frac{\|f(x) - f(a) - A(x - a)\|}{\|x - a\|} = 0.
+\]
+
+The above is equivalent to saying that $f(a + h) - f(a) = Ah + o(\|h\|)$. In simpler terms, $f(a + h) - f(a)$ can be divided into two parts: the first part is linear in $h$, while the second part approaches 0 faster than $h$ as $h$ approaches 0.
+
+If $f$ is differentiable at $a$, then the continuous linear map $A$ mentioned in the above definition is unique. This can easily be proved using the following exercise:
+
+\vspace{1cm}
+
+\textbf{Exercise 1:}
+
+Show that if $T \in L(E; F)$ satisfies $\lim_{x \to 0} \frac{\|Tx\|}{\|x\|} = 0$, then $T = 0$.
+
+That unique continuous linear map is called the derivative of $f$ at $a$, and denoted by $f'(a)$ or $Df(a)$ or $(df)_a$. Thus we obtain that $f'(a)$ is the unique continuous linear map from $E$ to $F$ satisfying
+
+\[
+f(a + h) - f(a) = f'(a)h + o(\|h\|).
+\]
+
+\vspace{1cm}
+\textbf{Remark 1:} Suppose that $E = K$, and $U \subseteq_{open} K$. If $f : U \to F$ is differentiable at $a \in U$, then $f'(a)$ is a continuous linear map from the one dimensional $K$ vector space $K$ to $F$. Hence, one obtains that
+
+\[
+\lim_{h \to 0} \left\| \frac{f(a + h) - f(a)}{h} - f'(a)(1) \right\|
+=
+\lim_{h \to 0} \left\| \frac{f(a + h) - f(a)}{|h|} - f'(a)h \right\|
+= 0,
+\]
+
+i.e., $\lim_{h \to 0} \frac{f(a+h)-f(a)}{h} = f'(a)(1)$. Conversely, if $\lim_{h \to 0} \frac{f(a+h)-f(a)}{h}$ exists in $F$, say $\ell$, then
+
+\[
+\lim_{h \to 0} \frac{\|f(a + h) - f(a) - h\ell\|}{|h|} = 0,
+\]
+
+which shows that $f$ is differentiable at $a$, and moreover, $f'(a)h = h\ell$, for all $h \in K$. 
+
+Thus we see that, in the special case $E = K$, the differentiability of $f : U \to F$ at $a \in U$ is equivalent to the existence of the limit 
+
+$$\lim_{h \to 0} \frac{f(a+h)-f(a)}{h}$$.
+
+Further, in view of the isomorphism $L(K; F) \to F$, $A \mapsto A(1)$, which is also an isometry, the derivative $f'(a)$ is naturally identified with 
+
+$$\lim_{h \to 0} \frac{f(a+h)-f(a)}{h} \in F$$. 
+
+In particular, if $F = K$, then $f'(a)$ can be regarded as the number defined by $\lim_{h \to 0} \frac{f(a+h)-f(a)}{h}$. This justifies the numerical interpretation of the derivative of a function at a given point in the one dimensional scenario.
+
+Suppose that $f : U \to F$ is differentiable at $a \in U$, where $U \subseteq_{open} E$. Then there exists $\eta > 0$ such that 
+
+
+
+$\|f(a + h) - f(a) - f'(a)h\| \leq \|h\|$, for all $h \in B(0; \eta)$. It now follows that
+\[
+\|f(a + h) - f(a)\|
+\leq \|f(a + h) - f(a) - f'(a)h\| + \|f'(a)h\|
+\leq \|h\| + \|f'(a)\|\|h\|
+= (1 + \|f'(a)\|)\|h\|, \quad \forall h \in B(0; \eta).
+\]
+As a consequence of this, we obtain that  \textbf{\textit{$f$ is continuous at $a$.}}
+
+
+\textbf{Example 1:} Let $f : U \to F$ be a constant map. Then it is easy to see that $f$ is differentiable at each point of $U$ and $f'(a) = 0$, for all $a \in U$.
+
+\textbf{Example 2:} Let $A \in L(E; F)$ and $f : U \to F$, $f(x) := Ax$. Then, for all $a \in U$, $f$ is differentiable at $a$, and $f'(a) = A$.
+
+\textbf{Example 3:} Let $E_1, E_2$ and $F$ be Banach spaces over $K$. Recall that the following operations make $E_1 \times E_2$ into a vector space over $K$:
+
+\[
+(x_1, x_2) + (y_1, y_2) := (x_1 + y_1, x_2 + y_2); \quad \text{and} \quad \alpha(x_1, x_2) := (\alpha x_1, \alpha x_2), \ \forall x_1, y_1 \in E_1, x_2, y_2 \in E_2, \alpha \in K.
+\]
+
+Further, the following defines a norm in $E_1 \times E_2$:
+
+\[
+\|(x_1, x_2)\| = \max\{\|x_1\|, \|x_2\|\}, \ \text{for all } (x_1, x_2) \in E_1 \times E_2.
+\]
+
+Since the spaces $E_1$ and $E_2$ are complete with respect to their respective norms, it follows that the product space $E_1 \times E_2$ is a Banach space under the norm defined above. Consider a continuous bilinear map $f : E_1 \times E_2 \to F$. We show that the restriction of $f$ to any open subset of $U$ of $E_1 \times E_2$ is differentiable at each $(a, b) \in U$. To see this, observe that
+
+\[
+f(a + h, b + k) = f(a, b) + f(h, b) + f(a, k) + f(h, k), \ \text{whenever } \|(h, k)\| \text{ is sufficiently small.}
+\]
+
+It is easy to see that the map
+
+\[
+E_1 \times E_2 \to F, \quad (h, k) \mapsto f(h, b) + f(a, k)
+\]
+
+is continuous and linear. Now the differentiability of $f$ at $(a, b)$ is immediate in view of the following:
+
+\[
+0 \leq \lim_{(h,k) \to (0,0)} \frac{\|f(h, k)\|}{\|(h, k)\|}
+\leq \lim_{(h,k) \to (0,0)} \frac{\|f\|\|h\|\|k\|}{\|(h, k)\|}
+\leq \lim_{(h,k) \to (0,0)} \frac{\|f\|\|(h, k)\|^2}{\|(h, k)\|}
+= \lim_{(h,k) \to (0,0)} \|f\|\|(h, k)\| = 0.
+\]
+
+Note that, in this case, for all $(a, b) \in U$, we have
+
+\[
+f'(a, b)(h, k) = f(h, b) + f(a, k), \ \forall (h, k) \in E_1 \times E_2.
+\]
+
+\textbf{Exercise 2:}
+
+Generalize the above conclusion for multilinear maps $f : E_1 \times \cdots \times E_n \to F$, where $n \in \mathbb{N}$ and $E_1, \ldots, E_n$ are Banach spaces over $K$.
+
+As a straightforward application of Exercise 2, we obtain that the determinant map defined as follows is differentiable at any $A \in M_n(K)$:
+
+\[
+\det : M_n(K) \cong \underbrace{K^n \times \cdots \times K^n}_{n \text{ times}} \to K, \quad A = (A_1, \ldots, A_n) \mapsto \det A,
+\]
+
+where $A_i$ stands for the $i$-th column of $A$, and further, we have $\det'(A)H = \operatorname{tr}((\operatorname{adj} A)H)$, for all $H \in M_n(K)$.
+\newpage
+\textbf{Example 4 :} Let $A$ be a Banach algebra over $K$. For any $n \in \mathbb{N}$, consider the map $f : A \to A$, $f(x) := x^n$. Since
+
+\[
+(x + h)^n - x^n = \sum_{k=1}^{n} x^{k-1} h x^{n-k} + o(\|h\|),
+\]
+
+$f$ is differentiable everywhere, and for all $x \in A$, we have $f'(x)h := \sum_{k=1}^{n} x^{k-1} h x^{n-k}, \ \forall h \in A$.
+
+\vspace{1cm}
+\textbf{Example 5 :} Recall that, for any $n \in \mathbb{N}$, $GL_n(K)$ is an open subset of $M_n(K)$, since it is the inverse image of $K \setminus \{0\}$ under the determinant function, which is continuous. Consider the map $f : GL_n(K) \to GL_n(K)$, $f(A) := A^{-1}$. Note that the entries of $A^{-1}$ are rational functions in $a_{ij}$'s, where $A = (a_{ij})_{1 \leq i,j \leq n}$, since $A^{-1} = \frac{1}{\det A} \cdot \operatorname{adj} A$. Consequently, $f$ is a continuous map. For any $H \in M_n(K)$, one has
+
+\[
+\|(A + H)^{-1} - A^{-1} - (-A^{-1} H A^{-1})\|
+=
+\|((A + H)^{-1} - A^{-1}) H A^{-1}\|
+\leq
+\|(A + H)^{-1} - A^{-1}\| \|H\| \|A^{-1}\|.
+\]
+
+From this, in view of the continuity of $f$ at $A$, it follows that $f$ is differentiable at $A$, and further one has $f'(A)(H) := -A^{-1} H A^{-1}$, for all $H \in M_n(K)$.
+
+\vspace{1cm}
+\textbf{Remark 2:} The above example can be generalised for isomorphisms between arbitrary Banach spaces $E$ and $F$ over $K$. Indeed, the set of all isomorphisms from $E$ to $F$, denoted by 
+$$\operatorname{Isom}(E; F)$$
+is an open subset of $L(E; F)$ and the map
+
+$\operatorname{Isom}(E; F) \to \operatorname{Isom}(F; E)$, $A \mapsto A^{-1}$ is continuous. 
+
+Then a verbatim repetition of the argument in Example 5 establishes differentiability. Similar reasoning can also be adopted to show that in any Banach algebra $A$, the set of all units, denoted by $A^\times$, is open in $A$, 
+
+and the map $A^\times \to A^\times$, $a \mapsto a^{-1}$ is differentiable. See Exercise Sheet 1 for details. 
+
+In particular, when $E = F = K$, $\operatorname{Isom}(K; K) \cong K \setminus \{0\}$, and one deduces the familiar formula
+\[
+\frac{d}{dx}\left(\frac{1}{x}\right) = -\frac{1}{x^2}, \ \text{for all } x \in K \setminus \{0\}.
+\]
+
+\textbf{Example 6 :} Let $A$ be a Banach algebra over $K$. For any fixed $x \in A$, consider the one variable function $f : K \to A$, $f(t) := e^{tx}$. Since, for any $t \in K$,
+
+\[
+\frac{f(t + h) - f(t)}{h} - xe^{tx}
+=
+\left( \frac{e^{hx} - 1 - hx}{h} \right) e^{tx}
+=
+\left( \sum_{n=2}^{\infty} \frac{h^{\,n-1} x^n}{n!} \right) e^{tx}
+\longrightarrow 0, \quad h \to 0,
+\]
+
+one concludes that $f$ is differentiable at every $t \in K$, and identifies $f'(t)$ with the element $xe^{tx} \in F$ (see Remark 1). Alternatively, as $e^{tx} = \sum_{n=0}^{\infty} \frac{t^n x^n}{n!}$ is a power series in one variable with coefficients in $A$, we can justify the term-by-term differentiation (See Exercise Sheet 1 for details) which also leads to the same conclusion.
+
+We now turn to the formal rules of derivation. To this end, first we prove the Chain rule.
+
+\newpage
+\begin{center}
+{\LARGE \textbf{\textit{CHAIN RULE}}}
+\end{center}
+
+\textbf{Chain rule:} Let $E, F$ and $G$ be Banach spaces over $K$, $U$ and $V$ be open subsets of $E$ and $F$ respectively, and $U \xrightarrow{f} V \xrightarrow{g} G$. Assume that $f$ is differentiable at $a \in U$ and $g$ is differentiable at $f(a)$. Then $g \circ f$ is differentiable, and $(g \circ f)'(a) = g'(f(a)) \circ f'(a)$.
+
+Thus, we see that the derivative of the composition is just the composition of the individual derivatives. For a detailed proof, please refer to the class notes.
+
+An immediate application of the Chain rule is as follows. Suppose that $F_1, \ldots, F_m$ are Banach spaces over $K$, and 
+$$f : U \to F_1 \times \cdots \times F_m$$ 
+where $U$ is an open subset of a Banach space $E$ over $K$. For each $i = 1, \ldots, m$, denote by $p_i$ the projection map 
+$F_1 \times \cdots \times F_m \to F_i$, $(y_1, \ldots, y_m) \mapsto y_i$
+onto the $i$th factor, and by $f_i$ the $i$th coordinate of the map $f$, i.e., $f_i := p_i \circ f$. Since each $p_i$ is continuous and linear, if $f$ is differentiable at $a$, then $f_i$ is differentiable at $a$, for all $i = 1, \ldots, m$. To see how $f'(a)$ is related to the $f_i'(a)$'s, consider the canonical inclusion map defined as follows:
+\[
+u_i : F_i \to F_1 \times \cdots \times F_m, \quad
+u_i(x) := (0, \ldots, 0, x, 0, \ldots, 0),
+\]
+for each $i = 1, \ldots, m$. Then $\sum_{i=1}^{m} u_i \circ p_i$ becomes the identity map on $F_1 \times \cdots \times F_m$, whence $\sum_{i=1}^{m} u_i \circ f_i = f$. Note that all $u_i$'s are continuous and linear. Hence, one obtains that
+
+\[
+f'(a) = \sum_{i=1}^{m} u_i \circ f_i'(a),
+\tag{1}
+\]
+
+which simply means that $f'(a) = (f_1'(a), \ldots, f_m'(a))$.
+
+\textbf{\textit{The Converse}} of the above is not difficult to see. Given that each $f_i$ is differentiable at $a$, one considers the following map
+
+\[
+T : E \to F_1 \times \cdots \times F_m, \; h \mapsto (f_1'(a)h, \ldots, f_m'(a)h).
+\]
+
+Clearly, $T$ is continuous and linear. Then from
+\[
+\|f(a + h) - f(a) - Th\|
+=
+\|(f_1(a + h) - f_1(a) - f_1'(a)h), \ldots, (f_m(a + h) - f_m(a) - f_m'(a)h)\|
+=
+\sup_{1 \leq i \leq m} \|f_i(a + h) - f_i(a) - f_i'(a)h\|,
+\]
+the differentiability of $f$ at $a$, and the relation $f'(a) = (f_1'(a), \ldots, f_m'(a))$ is clear.
+
+\subsection*{***}\textbf{\textit{Suppose}} that $U$ is an open subset of a Banach space $E$ over $K$ and $f$ and $g$ are functions defined on $U$ taking values in the Banach spaces $F_1$ and $F_2$ over $K$ respectively. If $f$ and $g$ both are differentiable at $a \in U$, then from the above, we get that the map 
+
+$U \to F_1 \times F_2$, $x \mapsto (f(x), g(x))$ is differentiable at $a$. 
+
+Let $\varphi : F_1 \times F_2 \to G$ be a continuous linear or bilinear map, 
+where $G$ is a Banach space over $K$. Then the Chain rule yields that the composite map $x \mapsto \varphi(f(x), g(x))$ is differentiable at $a$. Furthermore, its derivative at $a$ is readily seen to be $\varphi \circ (f'(a), g'(a))$ or the map $E \to G$, $h \mapsto \varphi(f'(a)h, g(a)) + \varphi(f(a), g'(a)h)$ accordingly as $\varphi$ is linear or bilinear respectively. We consider the following special cases of this:
+
+1. If $F_1 = F_2 = F$, say, and $\varphi : F \times F \to F$, $\varphi(\xi, \zeta) := \xi + \zeta$, then $(f + g)'(a) = f'(a) + g'(a)$.
+
+2. If $F_1 = F_2 = K$ and $\varphi : K \times K \to K$, $\varphi(\xi, \zeta) := \xi \zeta$, then $(fg)'(a) = g(a)f'(a) + f(a)g'(a)$.
+
+3. If $E = K = F_1$, $F_2 = E$ and $\varphi : K \times E \to E$, $\varphi(\alpha, \xi) := \alpha \xi$, then $(fg)'(a) = f'(a)g(a) + f(a)g'(a)$.
+
+\textbf{Remark 3:} If $E = K$ then the derivative considered above is identified with $\varphi(f'(a), g'(a))$ or $\varphi(f'(a), g(a)) + \varphi(f(a), g'(a))$, accordingly as $\varphi$ is linear or bilinear respectively.
+
+\newpage
+\textbf{Exercise 3:}
+
+Let $I$ be an open interval in $\mathbb{R}$, $n \in \mathbb{N}$, and $f, g : I \to \mathbb{R}^n$ be differentiable at $a \in I$. Is the dot product $f \cdot g$ is differentiable at $a$? If so, then what is $(f \cdot g)'(a)$? If $n = 3$, then what about the differentiability of the cross product $f \times g$ at $a$?
+
+\textbf{Exercise 4:}
+
+Let $U \subseteq_{open} K$ and $A$ be a Banach algebra over $K$. Suppose that $f, g : U \to A$ are differentiable at $a \in U$. Then show that the product $fg$ is differentiable at $a$, and the product formula $(fg)'(a) = f'(a)g(a) + f(a)g'(a)$ holds.
+
+\textbf{Exercise 5:}
+
+Let $U$ be an open subset of a Banach space $E$ over $K$ and $f : U \to F$ be differentiable at $a \in U$. Show that, for any $\lambda \in K$, $\lambda f$ is differentiable at $a$, and $(\lambda f)'(a) = \lambda f'(a)$.
+
+\textbf{Exercise 6:}
+
+Let $U$ be an open subset of a Banach space $E$ over $K$ and $f : U \to K$ be differentiable at $a \in U$. Show that if $f(a) \neq 0$, then the function $\frac{1}{f}$ is differentiable at $a$, and $\left(\frac{1}{f}\right)'(a) = -\frac{1}{f(a)^2} \cdot f'(a)$. Note that, $\frac{1}{f}$ is defined on an open neighborhood of $a$. (Why?)
+
+\begin{center}
+{\LARGE \textbf{\textit{*****}}}
+\end{center}
+Let $E$ and $F$ be Banach spaces over $K$, $a \in U \subseteq_{open} E$ and $f : U \to F$. Suppose that $t_0 \in I \subseteq_{open} K$ and $\gamma : I \to U$ is such that $\gamma(t_0) = a$ and $\gamma$ is differentiable at $t_0$. Then
+
+\[
+f \text{ is differentiable at } a \implies (f \circ \gamma)'(t_0) = f'(a)\gamma'(t_0).
+\]
+
+Given any $v \in E$, one considers $\gamma_{a,v}(t) := a + tv$, for all $t \in K$. Using the continuity of $\gamma_{a,v}$ at $0$, one obtains $\varepsilon > 0$ such that $\gamma_{a,v}(t) \in U$, whenever $|t| < \varepsilon$. The derivative $(f \circ \gamma_{a,v})'(0) = \frac{d}{dt}\big|_{t=0} f(a + tv)$, provided it exists, is called the directional derivative of $f$ at $a$ along $v$. It now follows from the above that, if $f$ is differentiable at $a$, then for all $v \in E$, the directional derivative $\frac{d}{dt}\big|_{t=0} f(a + tv)$ exists and equals to $f'(a)v$. The converse is false. In fact, having all directional derivatives at a given point does not suffice to ensure the continuity at that point. See Exercise Sheet 1.
+
+Given Banach spaces $E_1, \ldots, E_n$ spaces over $K$ and $a = (a_1, \ldots, a_n) \in E_1 \times \cdots \times E_n$, consider the following map
+\[
+\lambda_j(x) := (a_1, \ldots, a_{j-1}, x, a_{j+1}, \ldots, a_n), \quad \forall x \in E_j,
+\]
+for each $j = 1, \ldots, n$. This is obviously continuous. If $U \subseteq_{open} E := E_1 \times \cdots \times E_n$ and $a \in U$, then for each $j = 1, \ldots, n$, from the continuity of $\lambda_j$ at $a_j$, one has an open neighborhood, say $N(a_j)$, of $a_j$ such that $\lambda_j(N(a_j)) \subseteq U$. Let $f : U \to F$. Clearly the composition $N(a_j) \xrightarrow{\lambda_j} U \xrightarrow{f} F$ makes sense for all $j = 1, \ldots, n$. For any $j = 1, \ldots, n$, the map $f \circ \lambda_j$ is called the $j$th partial map, and if it is differentiable at $a_j$, the derivative $(f \circ \lambda_j)'(a_j) \in L(E_j; F)$ is referred to as the $j$th partial derivative of $f$ at $a$ and it is denoted by $\frac{\partial f}{\partial x_j}(a)$ or simply by $\partial_j f(a)$.
+
+\textbf{\textit{Note:}} If $E_1 = \cdots = E_n = K$, then $\frac{\partial f}{\partial x_j}(a)$ is same as the directional derivative of $f$ at $a$ along $e_j := (0, \ldots, 0, 1, 0, \ldots, 0)$.
+
+Observe that, each $\lambda_j$ is differentiable at $a_j$, and $\lambda_j'(a_j) = v_j$, where $v_j : E_j \to E$ is the canonical inclusion $x \mapsto (0, \ldots, 0, x, 0, \ldots, 0)$. Now if $f$ is assumed to be differentiable at $a$, then it follows from the Chain rule that $\frac{\partial f}{\partial x_j}(a)$ exists and $\frac{\partial f}{\partial x_j}(a) = f'(a) \circ v_j$. For all $j = 1, \ldots, n$, consider the projection map $q_j : E_1 \times \cdots \times E_n \to E_j$ onto the $j$th factor. Then from the relation $\sum_{j=1}^{n} v_j \circ q_j = I_E$, we get the following:
+\[
+f'(a)
+=
+\sum_{j=1}^{n} f'(a) \circ (v_j \circ q_j)
+=
+\sum_{j=1}^{n} (f'(a) \circ v_j) \circ q_j
+=
+\sum_{j=1}^{n} \frac{\partial f}{\partial x_j}(a) \circ q_j,
+\tag{2}
+\]
+i.e., for all $h := (h_1, \ldots, h_n) \in E_1 \times \cdots \times E_n$, $f'(a)h = \sum_{j=1}^{n} \frac{\partial f}{\partial x_j}(a) h_j$.
+\newpage
+\textbf{Exercise 7:}
+
+Let $E$ and $F$ be Banach spaces over $K$, $U \subseteq_{open} E$, and $f : U \to F$. If $f$ is differentiable on $U$, then the derivative of $f$, denoted by $f'$, is defined by
+\[
+f' : U \to L(E; F), \quad x \mapsto f'(x).
+\]
+If $f'$ is continuous, then we say that $f$ is of class $C^1$, and denote this by $f \in C^1(U)$, or simply by $f \in C^1$, provided there is no danger of confusion. Show that, if $E = E_1 \times \cdots \times E_n$, then for any differentiable map $f : U \to F$,
+\[
+f \in C^1(U) \Longleftrightarrow \frac{\partial f}{\partial x_j} : U \to L(E_j; F) \text{ is continuous for all } j = 1, \ldots, n.
+\]
+Further, if $F = F_1 \times \cdots \times F_m$, where $F_1, \ldots, F_m$ are Banach spaces over $K$, combining (1) and (2), we arrive at
+\[
+f'(a)
+=
+\sum_{i=1}^{m} u_i \circ f_i'(a)
+=
+\sum_{i=1}^{m} \sum_{j=1}^{n} u_i \circ \frac{\partial f_i}{\partial x_j}(a) \circ q_j.
+\tag{3}
+\]
+Thus from (3), we see that $f'(a)$ is determined by the $mn$ continuous linear maps $\frac{\partial f_i}{\partial x_j}(a) \in L(E_j; F_i)$, where $i = 1, \ldots, m$ and $j = 1, \ldots, n$.
+
+\textbf{Exercise 8:}
+
+Let $E_1, \ldots, E_n, F_1, \ldots, F_m, G_1, \ldots, G_\ell$ be Banach spaces over $K$, $U \subseteq_{open} E_1 \times \cdots \times E_n$, $V \subseteq_{open} F_1 \times \cdots \times F_m$ and $U \xrightarrow{f} V \xrightarrow{g} G_1 \times \cdots \times G_\ell$. Assume that $f$ is differentiable at $a \in U$ and $g$ is differentiable at $f(a) \in V$. Show that, for all $i = 1, \ldots, \ell$ and $j = 1, \ldots, n$,
+\[
+\partial_j (g_i \circ f)(a)
+=
+\sum_{k=1}^{m} \partial_k g_i(f(a)) \circ \partial_j f_k(a).
+\]
+When $E_1 = \cdots = E_n = F_1 = \cdots = F_m = K$, all $\frac{\partial f_i}{\partial x_j}(a)$s are numbers. In that case, $f'(a)$ is completely determined by the following $m \times n$ matrix over $K$
+
+\[
+\begin{pmatrix}
+\frac{\partial f_1}{\partial x_1}(a) & \frac{\partial f_1}{\partial x_2}(a) & \cdots & \frac{\partial f_1}{\partial x_n}(a) \\
+\frac{\partial f_2}{\partial x_1}(a) & \frac{\partial f_2}{\partial x_2}(a) & \cdots & \frac{\partial f_2}{\partial x_n}(a) \\
+\vdots & \vdots & \ddots & \vdots \\
+\frac{\partial f_m}{\partial x_1}(a) & \frac{\partial f_m}{\partial x_2}(a) & \cdots & \frac{\partial f_m}{\partial x_n}(a)
+\end{pmatrix}.
+\tag{4}
+\]
+
+In fact, for any $\ell = 1, \ldots, n$, observe that
+
+\[
+f'(a)e_\ell
+=
+\sum_{i=1}^{m} u_i \left( \frac{\partial f_i}{\partial x_\ell}(a) \right)
+=
+\left( \frac{\partial f_1}{\partial x_\ell}(a), \ldots, \frac{\partial f_m}{\partial x_\ell}(a) \right),
+\]
+
+which shows that (4) is the matrix representation of the linear map $f'(a) : K^n \to K^m$ relative to the standard bases of $K^n$ and $K^m$. This matrix is called the Jacobian matrix of $f$ at $a$.
+
+\textbf{Example 7:}
+
+I. Let $E$ be a Banach space over $K$ and $N$ be any norm in $E$. It is easy to see that the directional derivative of $N$ at the origin along any nonzero vector does not exist. Consequently, $N$ is not differentiable at the origin.
+
+II. For $n \in \mathbb{N}$, consider the euclidean norm $\|\cdot\|_2$ in $\mathbb{R}^n$, i.e., $\|x\|_2 := \sqrt{x_1^2 + \cdots + x_n^2}$, for all $x = (x_1, \ldots, x_n) \in \mathbb{R}^n$. Then, from the above and the chain rule, it follows that $\|\cdot\|_2$ is differentiable everywhere except at the origin.
+
+III. Consider $\|\cdot\|_1$ norm in $\mathbb{R}^n$, i.e., $\|x\|_1 := |x_1| + \cdots + |x_n|$, for all $x = (x_1, \ldots, x_n) \in \mathbb{R}^n$. Then $\|\cdot\|_1$ is differentiable everywhere except the coordinate axes.
+
+IV. Consider the sup norm $\|\cdot\|_\infty$ in $\mathbb{R}^n$, i.e., $\|x\|_\infty := \sup\{|x_1|, \ldots, |x_n|\}$, for all $x = (x_1, \ldots, x_n) \in \mathbb{R}^n$. Then $\|\cdot\|_\infty$ is differentiable precisely at all points $(x_1, \ldots, x_n) \in \mathbb{R}^n$ such that there exists some $i \in \{1, \ldots, n\}$ with the property that $|x_i| > |x_j|$ for all $j \neq i$. Hint: To show that $\|\cdot\|_\infty$ is not differentiable at any other points, first consider the case $n = 2$.
+
+\textbf{Remark 4:} Since a norm is always a Lipschitz function, in view of the following classical theorem, any norm in $\mathbb{R}^n$, where $n \in \mathbb{N}$, is differentiable Lebesgue a.e.
+
+\begin{center}
+{\LARGE \textbf{\textit{Rademacher’s Theorem}}}
+\end{center}
+
+\textbf{Rademacher’s theorem:}
+
+\textbf{\textit{Let $n, m \in \mathbb{N}$, $U \subseteq \mathbb{R}^n$, and $f : U \to \mathbb{R}^m$ be Lipschitz. Then $f$ is differentiable almost everywhere with respect to the Lebesgue measure on $\mathbb{R}^n$.}}
+
+Recall that every complex vector space can also be regarded as a real vector space. If $V$ and $W$ are complex vector spaces and $T : V \to W$ is linear, then $T$ is also linear when $V$ and $W$ are regarded as real vector spaces. The converse of this is not true. The following is a simple example:
+
+\[
+T : \mathbb{C} \to \mathbb{C}, \; T(z) := \overline{z}.
+\tag{5}
+\]
+
+This is obviously not linear when $\mathbb{C}$ is considered as a complex vector space, but linear when we consider $\mathbb{C}$ is viewed as a vector space over $\mathbb{R}$. To distinguish between maps that are linear when $V$ and $W$ are considered as vector spaces over $\mathbb{C}$ from those that are linear when $V$ and $W$ are regarded as real vector spaces, we adopt the following convention. If $T : V \to W$ is linear when $V$ and $W$ are considered as complex vector spaces, we say that $T$ is $\mathbb{C}$-linear, while if $T$ is linear when $V$ and $W$ are considered as real vector spaces, $T$ is said to be $\mathbb{R}$-linear. As mentioned above, every $\mathbb{C}$-linear map is trivially $\mathbb{R}$-linear.
+
+It is obvious that a norm in a complex vector space $V$ would also be a norm when $V$ is considered as a vector space over $\mathbb{R}$. Hence, it yields the same metric on the underlying set $V$ regardless of whether it is considered as a real or complex vector space. From this, it follows that, for any two complex vector spaces $V$ and $W$ and $T \in L(V; W)$, $T$ is also continuous $\mathbb{R}$-linear.
+
+Suppose that $E$ and $F$ are complex Banach spaces, $U \subseteq E$, and $f : U \to F$ is differentiable at $a \in U$. Now if $E$ and $F$ are viewed as real Banach spaces, the differentiability of $f$ at $a$ remains unaffected. Indeed, the original continuous $\mathbb{C}$-linear map $f'(a)$, when considered as a continuous $\mathbb{R}$-linear map, becomes the derivative of $f$ at $a$ in this case. 
+
+It is customary to say $f$ is $\mathbb{C}$-differentiable at $a$ in the former, and $f$ is $\mathbb{R}$-differentiable at $a$ in the latter. Thus, if $f$ is $\mathbb{C}$-differentiable at $a$, then it must be $\mathbb{R}$-differentiable at $a$. However, $\mathbb{R}$-differentiability at a point $a \in U$ does not imply the $\mathbb{C}$-differentiability at $a$. 
+
+The map mentioned above in (5) is clearly differentiable at the origin when $\mathbb{C}$ is treated as a real vector space. 
+
+However, when one considers $\mathbb{C}$ as a vector space over $\mathbb{C}$, $T$ is not $\mathbb{C}$-differentiable at the origin, since $\lim_{z \to 0} \frac{\overline{z}}{z}$ does not exist. 
+
+A moment’s thought would reflect that if $f$ is $\mathbb{R}$-differentiable at $a \in U$, then it is $\mathbb{C}$-differentiable if and only if the continuous $\mathbb{R}$-linear map $f'(a) : E \to F$ is $\mathbb{C}$-linear, since the derivative is unique. 
+
+\textbf{\textit{We now find a necessary and sufficient condition for that in the special case $\dim_{\mathbb{C}} E = \dim_{\mathbb{C}} F = 1$.}}
+
+Let $T : \mathbb{C} \to \mathbb{C}$ be an $\mathbb{R}$-linear map. It is easy to see that $T$ is $\mathbb{C}$-linear if and only if
+
+\[
+T(i(x + iy)) = iT(x + iy), \ \forall x + iy \in \mathbb{C}.
+\tag{6}
+\]
+
+Consider the matrix representation
+\[
+\begin{pmatrix}
+a & c \\
+b & d
+\end{pmatrix}
+\]
+of $T$ relative to the ordered basis $\{1, i\}$ of the real vector space $\mathbb{C}$.
+
+\textit{Note:} In view of the identification $\mathbb{C} \leftrightarrow \mathbb{R}^2$, $x + iy \leftrightarrow (x, y)$, the above matrix is the matrix representation of $T$ relative to the standard basis of $\mathbb{R}^2$ when we regard $T$ as a linear map on the real vector space $\mathbb{R}^2$.
+
+It follows that (6) is equivalent to the following:
+
+\[
+\begin{pmatrix}
+a & c \\
+b & d
+\end{pmatrix}
+\begin{pmatrix}
+-y \\
+x
+\end{pmatrix}
+=
+\begin{pmatrix}
+-bx - dy \\
+ax + cy
+\end{pmatrix},
+\quad \forall (x, y) \in \mathbb{R}^2.
+\tag{7}
+\]
+
+One can easily verify that (7) holds when and only when $a = d$ and $b = -c$. Thus, we prove that an $\mathbb{R}$-linear map on $\mathbb{C}$ is $\mathbb{C}$-linear if and only if its matrix representation relative to the ordered basis $\{1, i\}$ of vector space $\mathbb{C}$ over $\mathbb{R}$ is of the form
+
+\[
+\begin{pmatrix}
+a & -b \\
+b & a
+\end{pmatrix}.
+\]
+
+\textbf{Exercise 9:}
+
+Generalize the above for $\mathbb{R}$-linear maps on $\mathbb{C}^n$. Note that, $\mathbb{C}^n$ is canonically identified with $\mathbb{R}^{2n}$ by $(x_1 + iy_1, \ldots, x_n + iy_n) \leftrightarrow (x_1, \ldots, x_n, y_1, \ldots, y_n)$, which is an isomorphism of real vector spaces.
+
+Let $U$ be an open subset of $\mathbb{C}$ and $f : U \to \mathbb{C}$. If $f$ is $\mathbb{C}$-differentiable at $a \in U$, then it is customary to say that $f$ is holomorphic at $a$. As mentioned above, $f$ is holomorphic at $a$ implies that $f$ is $\mathbb{R}$-differentiable at $a$. In view of the previously mentioned identification, note that the $\mathbb{R}$-differentiability of $f$ at $a$ simply means that it is differentiable at $a$ when considered as a map from an open subset $U$ of the real Banach space $\mathbb{R}^2$ to $\mathbb{R}^2$. Assume that $f$ is differentiable at $a$ in the real sense. Denote by $u$ and $v$ the real and imaginary part of $f$. (This is same as saying $f = (u, v)$, when it is viewed as a map from $U$ to $\mathbb{R}^2$.) Then from (4) we get the matrix following matrix representation of $f'(a)$ relative to the ordered basis $\{1, i\}$ of $\mathbb{C}$ over $\mathbb{R}$:
+
+\[
+\begin{pmatrix}
+\frac{\partial u}{\partial x}(a) & \frac{\partial u}{\partial y}(a) \\
+\frac{\partial v}{\partial x}(a) & \frac{\partial v}{\partial y}(a)
+\end{pmatrix}.
+\]
+
+Hence, we conclude that $f$ is holomorphic at $a$ if and only if $\frac{\partial u}{\partial x}(a) = \frac{\partial v}{\partial y}(a)$ and $\frac{\partial v}{\partial x}(a) = -\frac{\partial u}{\partial y}(a)$, i.e., $f$ satisfies the Cauchy-Riemann equations at $a$.
+
+Let $a < b$ and $f : [a, b) \to F$, where $F$ is a Banach space over $\mathbb{R}$. We say that $f$ has a right hand derivative at a point $x \in [a, b)$ if $\lim_{h \to 0+} \frac{f(x+h) - f(x)}{h}$ exists, and in that case the limit is referred to as the right hand derivative of $f$ at $x$ and denoted by $f'(x+)$.
+
+\newpage
+\begin{center}
+    \textbf{\textit{Mean Value Theorem}}
+\end{center}
+
+\textbf{Mean value theorem:}
+Let $F$ be a Banach space over $\mathbb{R}$. Suppose that $f : [a, b] \to F$ and $g : [a, b] \to \mathbb{R}$ be continuous maps defined on the compact interval $[a, b] \subseteq \mathbb{R}$. Assume that there exists a countable subset $D$ of $[a, b]$ such that for all $x \in (a, b) \setminus D$, $f'(x+)$ and $g'(x+)$ exist and $\|f'(x+)\| \leq g'(x+)$. Then $\|f(b) - f(a)\| \leq g(b) - g(a)$.
+
+\textbf{Remark 5:} The countability assumption on $D$ in the Mean value theorem cannot be replaced by the weaker assumption that $D$ is Lebesgue null. The Cantor-Lebesgue function is an increasing, surjective self-map on the interval $[0, 1]$, which has a zero derivative Lebesgue a.e.
+
+\textbf{Corollary 1:}
+
+I. Let $g : [a, b] \to \mathbb{R}$ be a continuous function defined on the compact interval $[a, b] \subseteq \mathbb{R}$. Assume that $g'(x+)$ exists and nonnegative for all but countably many $x \in (a, b)$. Then $g$ is increasing on $[a, b]$.
+
+II. Let $F$ be a Banach space over $\mathbb{R}$ and $f : [a, b] \to F$ be continuous. If there exists $C > 0$ such that $f'(x+)$ exists and satisfies $\|f'(x+)\| \leq C$, for all but countably many $x \in (a, b)$, then $f$ is Lipschitz on $[a, b]$ with Lipschitz constant $C$. In particular, if $f$ has a zero right hand derivative at all but countably many points in the open interval $(a, b)$, then $f$ must be a constant function.
+
+The following exercise is an important application of Corollary 1.II:
+
+
+\textbf{Exercise 10:}
+
+Let $A$ be a Banach algebra over $\mathbb{R}$.
+
+I. Fix $x, x_0 \in A$. Show that there exists a unique solution for the following IVP over $\mathbb{R}$:
+
+\[
+y' = xy, \quad y(0) = x_0.
+\]
+
+II. Suppose that $x, y \in A$ are such that $xy = yx$. Using I, show that $e^{x+y} = e^x e^y$. Hint: Consider $\varphi(t) := e^{t(x+y)} - e^{tx}e^{ty}$, for all $t \in \mathbb{R}$.
+
+III. Assume now that $A := M_n(K)$. Show that, for any $X \in M_n(K)$, $\det(e^X) = e^{\operatorname{tr} X}$. Hint: Let $g(t) := \det(e^{tX})$, for all $t \in \mathbb{R}$. Observe that, for any $s \in \mathbb{R}$,
+\[
+g'(s) = \frac{d}{dt}\bigg|_{t=0} g(t + s) = \frac{d}{dt}\bigg|_{t=0} g(t)g(s) = \left( \frac{d}{dt}\bigg|_{t=0} g(t) \right) g(s).
+\]
+
+Let $E$ and $F$ be Banach spaces over $\mathbb{R}$, $U \subseteq_{open} E$, and $f : U \to F$ be differentiable. Suppose that $x, y \in U$ are such that the line segment $\{(1 - t)x + ty : t \in [0, 1]\} \subseteq U$. Applying the Mean value theorem to the one variable function $F(t) := f((1 - t)x + ty)$, $\forall t \in [0, 1]$, we obtain that
+
+\[
+\|f(y) - f(x)\| \leq \|y - x\| \sup_{0 \leq t \leq 1} \|f'((1 - t)x + ty)\|.
+\tag{8}
+\]
+
+From this, one immediately concludes the following:
+
+\textbf{Corollary 2:} Let $E$ and $F$ be Banach spaces over $\mathbb{R}$, $U \subseteq_{open} E$, and $f : U \to F$ be differentiable. If $f' \equiv 0$, then $f$ is locally constant. Moreover, if $U$ is connected, then $f$ is constant.
+
+\textbf{Remark 6:} Consider the function $f : \mathbb{R} \to \mathbb{R}^2$, $f(t) := (\cos t, \sin t)$. It is clear that there cannot exist any $t \in [0, 2\pi]$ such that $0 = f(2\pi) - f(0) = 2\pi f'(t)$. This example shows that the familiar equality in the Mean value theorem in calculus of one real variable does not hold for functions in several variables; and, on the other hand, "$<$" can occur in (8).
+
+
+\textbf{Exercise 11:}
+
+Let $E$ and $F$ be Banach spaces over $\mathbb{R}$, $U \subseteq_{open} E$, and $f : U \to F$ be differentiable. Assume further that $U$ is convex, i.e., for all $x, y \in U$, $\{(1 - t)x + ty : t \in [0, 1]\} \subseteq U$. Show that, if $f'$ is bounded, i.e., there exists $C > 0$ such that $\|f'(x)\| \leq C$, for all $x \in U$, then $f$ is Lipschitz on $U$ with Lipschitz constant $C$.
+
+\textbf{Exercise 12:}
+
+Let $f : U \to F$ be a differentiable map defined on an open subset $U$ of a real Banach space $E$ and taking values on a real Banach space $F$. Assume that the norm in $F$ is given by an inner product, say $\langle \cdot, \cdot \rangle$. Show that, for any $v \in F$, there exists an intermediate point $z$ on the line segment $\{(1 - t)x + ty : t \in [0, 1]\}$ satisfying $\langle f(y) - f(x), v \rangle = \langle f'(z)(y - x), v \rangle$. In particular, if $E = \mathbb{R}^n$, where $n \in \mathbb{N}$, and $F = \mathbb{R}$, deduce that
+
+\[
+f(y) - f(x) = \sum_{i=1}^{n} \frac{\partial f}{\partial x_i}(z) (y_i - x_i),
+\]
+
+where $x = (x_1, \ldots, x_n)$ and $y = (y_1, \ldots, y_n)$.
+
+We now discuss some important applications of the Mean Value Theorem:
+
+
+\begin{center}
+    \textbf{\textit{Applications Of The Mean Value Theorem}}
+\end{center}
+
+\section*{\textbf{Differentiability under uniform convergence:}}
+Let $U$ be an open connected subset of a Banach space $E$ over $\mathbb{R}$, and for all $n \in \mathbb{N}$, $f_n : U \to F$ be differentiable, where $F$ is a real Banach space. Suppose that the sequence $\{f_n'\}_{n=1}^{\infty}$ of maps from $U$ to $L(E; F)$ converges to $g : U \to L(E; F)$ locally uniformly, i.e., for every $x \in U$, there exists $r_x > 0$ such that $f_n' \xrightarrow[n \to \infty]{} g$ uniformly on $B(x; r_x)$. Assume that, the sequence $\{f_n(a)\}_{n=1}^{\infty}$ is convergent for some $a \in U$. Then there exists a function $f : U \to F$ satisfying the following:
+
+I. $f_n \xrightarrow[n \to \infty]{} f$ locally uniformly; and
+
+II. $f$ is differentiable on $U$, and $f' = g$.
+
+\textit{Note:} In this proof, we have used the following: if $X$ is a set, $Y$ is a complete metric space and $\{f_n\}_{n=1}^{\infty}$ is a sequence of maps defined on $X$ and taking values in $Y$, then $\{f_n\}_{n=1}^{\infty}$ is uniformly Cauchy if and only if it is uniformly convergent.
+
+\textbf{Exercise 13:}
+
+Let $A$ be a Banach algebra over $\mathbb{R}$, and $\sum_{n=0}^{\infty} a_n(x - a)^n$ be a power series in $A$, i.e., $a \in A$ and $a_n \in A$, for all $n \geq 0$. Assume that $\sum_{n=0}^{\infty} a_n(x - a)^n$ has radius of convergence $R \in (0, \infty]$. Consider the following function:
+
+\[
+f(x) := \sum_{n=0}^{\infty} a_n(x - a)^n, \quad \forall x \in B(a; R).
+\]
+
+Show that $f$ is differentiable.
+
+\textbf{Exercise 14:}
+
+Let $E, F$ be Banach spaces over $\mathbb{R}$, $a \in U \subseteq_{open} E$, and $f : U \to F$ be continuous. Assume that $f$ is differentiable on $U \setminus \{a\}$ and $f'(x) \xrightarrow[x \to a]{} T \in L(E; F)$. Show that, for every $\varepsilon > 0$ there exists $\delta > 0$ such that
+
+\[
+\|f(x) - f(y) - T(x - y)\| < \varepsilon \|x - y\|, \quad \forall x, y \in B(a; \delta).
+\]
+
+Deduce that $f$ is differentiable at $a$, and $f'(a) = T$.
+
+
+\section*{\textbf{Sufficient condition for differentiability:}}
+Let $E_1, \ldots, E_n, F$ be real Banach spaces and $U \subseteq E_1 \times \cdots \times E_n$ be open. Suppose that $f : U \to F$ is such that $\frac{\partial f}{\partial x_j}(x)$ exists for all $x \in E_1 \times \cdots \times E_n \setminus \{a\}$, where $a = (a_1, \ldots, a_n) \in U$, and $j = 1, \ldots, n - 1$, and $\frac{\partial f}{\partial x_n}(a)$ exists. Assume that, for all $j = 1, \ldots, n - 1$, $T_j \in L(E_j; F)$ such that $\lim_{x \to a} \frac{\partial f}{\partial x_j}(x) = T_j$. Then $f$ is differentiable at $a$, and $f'(a)h = \sum_{j=1}^{n-1} T_j h_j + \frac{\partial f}{\partial x_n}(a) h_n$, for all $h = (h_1, \ldots, h_n) \in E_1 \times \cdots \times E_n$.
+
+\textbf{Remark 7:} In fact, in the above, if there exists $k \in \{1, \ldots, n\}$ such that $\frac{\partial f}{\partial x_k}(a)$ exists, and for all $j \in \{1, \ldots, n\} \setminus \{k\}$, $\frac{\partial f}{\partial x_j}(x)$ exists for all $x \in E_1 \times \cdots \times E_n \setminus \{a\}$ and $\lim_{x \to a} \frac{\partial f}{\partial x_j}(x)$ exists in $L(E_j; F)$, say $T_j$, then $f$ is differentiable at $a$, and $f'(a)h = \sum_{1 \leq j \leq n, j \neq k} T_j h_j + \frac{\partial f}{\partial x_k}(a) h_k$, for all $h = (h_1, \ldots, h_n) \in E_1 \times \cdots \times E_n$.
+
+\textbf{Corollary 3:} Let $E_1, \ldots, E_n, F$ be real Banach spaces, $U \subseteq E_1 \times \cdots \times E_n$ be open, and $f : U \to F$. Suppose that, for all $j = 1, \ldots, n$, $\frac{\partial f}{\partial x_j}$ exists on $U \setminus \{a\}$, and there exists $T_j \in L(E_j; F)$ such that $\lim_{x \to a} \frac{\partial f}{\partial x_j}(x) = T_j$. Then for all $\varepsilon > 0$ there exists $\delta > 0$ such that
+
+\[
+\left\| f(x) - f(y) - \sum_{j=1}^{n} T_j (x_j - y_j) \right\| < \varepsilon \|x - y\|, \quad \forall x = (x_1, \ldots, x_n), y = (y_1, \ldots, y_n) \in B(a; \delta).
+\]
+
+Consequently, $f$ is differentiable at $a$. In particular, all partial derivatives $\frac{\partial f}{\partial x_j}$ exist and continuous on $U$ if and only if $f \in C^1(U)$.
+
+\newpage
+\begin{center}
+    \textbf{\textit{Inverse Mapping Theorem}}
+\end{center}
+
+\textbf{Inverse mapping theorem:} Let $E$ and $F$ are Banach spaces over $\mathbb{R}$, $a \in U \subseteq_{open} E$ and $f : U \to F$ be of class $C^1$. Assume that $f'(a)$ is invertible. Then there exist a $\Omega \subseteq_{open} U$ and $V \subseteq_{open} F$ such that $f|_{\Omega} : \Omega \to V$ bijective and $f|_{\Omega}^{-1} : V \to \Omega$ is of class $C^1$. Furthermore, for any $y \in V$, $(f|_{\Omega}^{-1})'(y) = (f'(f|_{\Omega}^{-1}(y)))^{-1}$.
+
+\textbf{Remark 8:} As a part of the conclusion of the Inverse Mapping Theorem, one obtains that $f(a)$ is an interior point of $f(U)$. From this, it is immediate that, if $f'(x) \in \operatorname{Isom}(E; F)$, for all $x \in U$, then $f(U)$ is an open map, i.e., for any $W \subseteq_{open} U$, $f(W)$ is an open subset of $F$. In particular, if $U \subseteq_{open} \mathbb{C}$ and $f : U \to \mathbb{C}$ is holomorphic and $f'(z) \neq 0$, for all $z \in U$, then $f'(z)$ is nonsingular when viewed as a linear endomorphism of the real vector space $\mathbb{C}$ for all $z \in U$. Consequently, $f$ is an open map. This proves the "Open mapping theorem" of Complex analysis in one variable.
+
+\textit{\textbf{Note:}} Let $E, F$ be Banach spaces over $K$, and $T \in L(E; F)$.
+
+I. If $\delta := \inf_{\|x\|=1} \|Tx\| > 0$, then for all $S \in L(E; F)$ such that $\|S - T\| < \frac{\delta}{2}$, one has the following:
+
+\[
+\|Sx\| = \|Tx - (S - T)x\| \geq \|Tx\| - \|(S - T)x\| \geq \|Tx\| - \|T - S\|\|x\| \geq \frac{\delta}{2}\|x\|, \quad \forall x \in E.
+\]
+
+This in particular shows that $S$ is injective. From this, it follows that, if $E, F$ are finite dimensional, then the set of all injective linear maps from $E$ to $F$ is open in $L(E; F)$.
+
+II. If there exists $A \in L(F; E)$ such that $T \circ A = I_F$, then any $S \in L(E; F)$ satisfying $\|S - T\| < \frac{1}{2\|A\|}$ is surjective. Indeed, given any $y \in F$ and $a \in E$, define the following sequence recursively:
+
+\[
+x_1 := a \text{ and } x_{n+1} := A(y + (T - S)x_n), \quad \forall n \in \mathbb{N}.
+\tag{9}
+\]
+
+Then, using induction, one obtains that $\|x_{n+1} - x_n\| \leq \frac{1}{2^{n-1}} \|x_2 - x_1\|$. Clearly, $\{x_n\}_{n=1}^{\infty}$ is Cauchy since $\sum_{n=1}^{\infty} \|x_{n+1} - x_n\| < \infty$. Due to the completeness of $E$, there exists $x \in E$ such that $x_n \xrightarrow[n \to \infty]{} x$. Then from (9), we get $x = Ay + A(T - S)x$. We now apply $T$ to both sides to obtain $Sx = y$. When $E$ and $F$ are finite dimensional and $T : E \to F$ and $T \in L(E; F)$ is surjective, the existence of an $A \in L(F; E)$ such that $T \circ A = I_F$ is guaranteed. Hence, in view of the above, one concludes that the set of all surjective linear maps from $E$ to $F$ is open in $L(E; F)$, provided $E, F$ are finite dimensional.
+
+\begin{center}
+    \textbf{\textit{Implicit Mapping Theorem}}
+\end{center}
+
+\textbf{Implicit mapping theorem:} Let $E, F$ be Banach spaces over $\mathbb{R}$, $x_0 \in U \subseteq_{open} E$, $y_0 \in V \subseteq_{open} F$, and $f : U \times V \to F$ be a $C^1$ function such that $f(x_0, y_0) = 0$. Assume that $\frac{\partial f}{\partial y}(x_0, y_0) \in \operatorname{Isom}(F; F)$. Then there exists $N(x_0) \subseteq_{open} U$, $N(y_0) \subseteq_{open} V$ and a $C^1$ map $\varphi : N(x_0) \to N(y_0)$ such that
+
+\[
+\forall (x, y) \in N(x_0) \times N(y_0), \quad f(x, y) = 0 \Longleftrightarrow y = \varphi(x).
+\tag{10}
+\]
+
+Furthermore, for every $x \in N(x_0)$,
+\[
+\varphi'(x) = - \left( \frac{\partial f}{\partial y}(x, \varphi(x)) \right)^{-1} \circ \frac{\partial f}{\partial x}(x, \varphi(x)).
+\]
+
+Note that (10) is equivalent to the following:
+
+\[
+f^{-1}(\{0\}) \cap (N(x_0) \times N(y_0)) = \{(x, \varphi(x)) : x \in N(x_0)\},
+\]
+
+i.e., the neighborhood $f^{-1}(\{0\}) \cap (N(x_0) \times N(y_0))$ of $(x_0, y_0)$ in $f^{-1}(\{0\})$ is the graph of the $C^1$ map $\varphi$.
+
+\textbf{Remark 9:} It follows from (10) that, for any $x \in N(x_0)$, there exists a unique $y \in N(y_0)$ such that $f(x, y) = 0$. This establishes the uniqueness of the $C^1$ map $\varphi$ in a neighborhood of $x_0$. To be precise, if $x_0 \in \tilde{N}(x_0) \subseteq_{open} U$ and $y_0 \in \tilde{N}(y_0) \subseteq_{open} V$, and $\tilde{\varphi} : \tilde{N}(x_0) \to \tilde{N}(y_0)$ is a $C^1$ map such that for all $(x, y) \in \tilde{N}(x_0) \times \tilde{N}(y_0)$, the condition $f(x, y) = 0$ is equivalent to $y = \tilde{\varphi}(x)$, then $\varphi$ is equal to $\tilde{\varphi}$ on the intersection $N(x_0) \cap \tilde{N}(x_0)$.
+
+The Inverse Mapping Theorem and the Implicit Mapping Theorem are equivalent. Indeed, the latter can be deduced from the former as follows. Consider the map $F : U \times V \to E \times F$, $F(x, y) := (x, f(x, y))$. Then, for all $(x, y) \in U \times V$, one has
+
+\[
+F'(x, y)(h, k) = \left( h, \frac{\partial f}{\partial x}(x, y)h + \frac{\partial f}{\partial y}(x, y)k \right), \quad \text{for all } (h, k) \in E \times F.
+\]
+
+In particular,
+
+\[
+F'(x_0, y_0)(h, k) = \left( h, \frac{\partial f}{\partial x}(x_0, y_0)h + \frac{\partial f}{\partial y}(x_0, y_0)k \right), \quad \text{for all } (h, k) \in E \times F.
+\tag{11}
+\]
+
+Note that $F'$ is continuous in view of Exercise 7, and the inverse of the continuous linear map mentioned above in (11) is given by the following:
+
+\[
+E \times F \to E \times F, \; (\xi, \zeta) \mapsto \left( \xi, - \left( \frac{\partial f}{\partial y}(x_0, y_0) \right)^{-1} \left( \frac{\partial f}{\partial x}(x_0, y_0)\xi - \zeta \right) \right).
+\]
+
+Now the Inverse mapping theorem yields $r > 0$ and $(x_0, y_0) \in W \subseteq_{open} U \times V$ such that $F : W \to B((x_0, 0); r)$ and $F^{-1} : B((x_0, 0); r) \to W$ both are $C^1$. Refining the choice of $r > 0$, if necessary, we get $B(x_0; r) \subseteq U$. Denote by $q$ the projection map $q : E \times F \to F$ onto $F$. Clearly $q(W)$ is open in $F$. Let
+
+\[
+\varphi : B(x_0; r) \to q(W), \quad \varphi(x) := q(F^{-1}(x, 0)).
+\]
+
+It can be readily seen that $\varphi$ is of class $C^1$, and for $(x, y) \in B(x_0; r) \times q(W)$,
+
+\[
+f(x, y) = 0 \Longleftrightarrow F(x, y) = (x, 0) \Longleftrightarrow (x, y) = F^{-1}(x, 0) \Longleftrightarrow q(F^{-1}(x, 0)) = y.
+\]
+
+\textbf{Exercise 15:}
+
+Prove the Inverse Mapping Theorem using the Implicit Mapping Theorem. \textit{Hint:} Without loss of generality, we may assume $E = F$. (How?) Now consider $f : U \times E \to E$, $f(x, y) := f(x) - y$. Then $f(x_0, y_0) = 0$ and $\frac{\partial f}{\partial x}(x_0, y_0) = f'(x_0) \in \operatorname{Isom}(E; E)$, where $y_0 := f(x_0)$.
+\newpage
+\begin{center}
+    \textbf{\textit{Some Applications Of The Inverse Mapping Theorem}}
+\end{center}
+
+
+\textbf{I}. Let $A$ be a Banach algebra over $\mathbb{R}$ and $k \in \mathbb{N}$. Then there exists an $\varepsilon > 0$ such that, for all $x \in A$ with $\|x - 1\| < \varepsilon$, $x$ has a $k$-th root in $A$, i.e., $\exists y \in A$ such that $y^k = x$.
+
+\textbf{II}. Suppose that $A$ is a Banach algebra over $K$. Then there exist $0 \in U \subseteq_{open} A$ and $1 \in V \subseteq_{open} A$ such that $U \to V$, $x \mapsto e^x$ is a $C^1$ diffeomorphism. The inverse of this map is called logarithm.
+
+\textbf{III}. Define $C_0^1[0, 1] := \{ f : [0, 1] \to \mathbb{R} : f$ is continuously differentiable and $f(0) = 0 \}$. It is easy to see that the following defines a norm on $C_0^1[0, 1]$:
+
+\[
+\|f\| := \|f\|_\infty + \|f'\|_\infty, \quad \forall f \in C_0^1[0, 1].
+\]
+
+Then $C_0^1[0, 1] \to C[0, 1]$, $f \mapsto f'$ is continuous, one-one, and onto due to the Fundamental Theorem of Calculus. Fix $k \geq 2$. Consider the following map:
+
+\[
+T : C_0^1[0, 1] \to C[0, 1], \quad T(f) = f' + f^k.
+\]
+
+Clearly $T'(0)$ is invertible. From the Inverse Mapping theorem, one concludes that there exists $\varepsilon > 0$ such that, for all $g \in C[0, 1]$ with $\|g\|_\infty < \varepsilon$, the following nonlinear IVP has a solution on $[0, 1]$:
+
+\[
+y' + y^2 = g, \quad y(0) = 0.
+\]
+
+\textbf{IV}. Let $n \in \mathbb{N}$ and $U \subseteq_{open} \mathbb{R}^{n+1}$. Consider a $C^1$ function $f : U \to \mathbb{R}$. Suppose that $a \in U$ is such that $f(a) = 0$ and $\nabla f(a) \neq 0$. Then there exists an open neighborhood $N(a)$ of $a$ in $f^{-1}(\{0\})$ on which one can introduce a new set of coordinates, say $\xi_1, \ldots, \xi_{n+1}$, such that some $\xi_i = 0$ on $N(a)$. In plain language, $f^{-1}(\{0\})$ looks like the hyperplane $\xi = 0$ around $a$.
+
+\begin{center}
+    
+\section*{\textbf{\textit{Rank Theorem}}}
+\end{center}
+
+\textbf{V(Imp)}. \textbf{Rank Theorem:} Let $n, m \in \mathbb{N}$, $U \subseteq_{open} \mathbb{R}^n$, and $f : U \to \mathbb{R}^m$ be a $C^1$ map. Assume that $f'(a)$ has rank $r$, where $a \in U$. Then there exist a $C^1$ diffeomorphism $\varphi$ from an open neighborhood of $a$ in $U$ to an open subset of $\mathbb{R}^n$ and a diffeomorphism $\psi$ from an open neighborhood of $f(a)$ in $\mathbb{R}^m$ to an open subset of $\mathbb{R}^m$ such that $\psi \circ f \circ \varphi^{-1}$ makes sense on an open subset, say $W$, of $\mathbb{R}^n$, and
+
+\[
+\psi \circ f \circ \varphi^{-1} (\xi_1, \ldots, \xi_n) = (\xi_1, \ldots, \xi_r, 0, \ldots, 0), \quad \forall (\xi_1, \ldots, \xi_n) \in W.
+\]
+
+See Exercise Sheet 2 for more applications.
+
+Let $E$ be a Banach space over $\mathbb{R}$, $S \subseteq E$ and $p \in S$. We say that $v \in E$ is a tangent vector of $S$ at $p$ if there exist $\varepsilon > 0$ and a $C^1$ curve $\gamma : (-\varepsilon, \varepsilon) \to E$ such that $\gamma(-\varepsilon, \varepsilon) \subseteq S$, $\gamma(0) = p$ and $\gamma'(0) = v$. The set of all tangent vectors of $S$ at $p$ is denoted by $T_p S$. It is clear from the definition that, if $p \in \Omega \subseteq_{open} S$, then $T_p \Omega = T_p S$.
+
+\textbf{Exercise 16:}
+
+Let $E$ be a Banach space over $\mathbb{R}$ and $U \subseteq E$ be open. Determine $T_p U$, for any $p \in U$.
+
+\textbf{Exercise 17:}
+
+Let $E, F$ be Banach spaces over $\mathbb{R}$, $U \subseteq E$ be open and $f : U \to F$ be differentiable. Fix any $x_0 \in U$. Show that $T_{(x_0,f(x_0))}(\{(x, f(x)) : x \in U\})$ is the image of the linear map $(I, f'(x_0))$. In particular, $T_{(x_0,f(x_0))}(\{(x, f(x)) : x \in U\})$ is a subspace of $E \times F$.
+
+\textbf{Exercise 18:}
+
+Let $E = \mathbb{R}^n$ and $F = \mathbb{R}^m$, where $m, n \in \mathbb{N}$, in Exercise 17. Find a system of linear equations with real coefficients whose solution space is $T_{(x_0,f(x_0))}(\{(x, f(x)) : x \in U\})$. \textit{Hint:} It all boils down to find a matrix $A \in M_{n \times (m+n)}$ such that 
+\[
+A \frac{\partial (x_1,\ldots,x_n,f_1,\ldots,f_m)}{\partial (x_1,\ldots,x_n)} = 0
+\]
+and $\operatorname{rank} A = n$. (Why?)
+
+\textbf{Exercise 19:}
+
+For a closed subgroup $G$ of $GL_n(\mathbb{C})$, where $n \in \mathbb{N}$, its tangent space at identity is denoted by $\mathfrak{g}$.
+
+I. Show that $\mathfrak{g}$ is a vector space over $\mathbb{R}$. \textit{Hint:} If $\gamma'(0), \sigma'(0) \in \mathfrak{g}$ and $\alpha \in \mathbb{R}$, consider the curves $t \mapsto \gamma(t)\sigma(t)$ and $t \mapsto \gamma(\alpha t)$, defined on some open interval in $\mathbb{R}$ containing $0$.
+
+II. Determine $\mathfrak{g}$ when $G = GL_n(K), SL_n(K), O(n), U(n), SO(n), SU(n)$. \textit{Hint:} Use Exercise 10.
+
+Consider the special case $E := \mathbb{R}^{n+m}$ and $S = g^{-1}(\{0\})$, where $n, m \in \mathbb{N}$, $U \subseteq \mathbb{R}^{n+m}$ is open and $g : U \to \mathbb{R}^m$ be of class $C^1$. It is easy to see that, for any $p \in g^{-1}(0)$, if $v \in T_p S$, then $v \in \ker g'(p)$. For, if $\gamma : (-\varepsilon, \varepsilon) \to \mathbb{R}^{n+m}$ is a $C^1$ curve, where $\varepsilon > 0$, such that $g(\gamma(t)) = 0$, for all $t \in (-\varepsilon, \varepsilon)$, $\gamma(0) = p$, then the Chain rules yields that $g'(p)\gamma'(0) = 0$. In addition, if $p$ is assumed to be a regular point, i.e., the rank of $g'(p)$ is $m$, then it follows from the Implicit function theorem that $T_p S = \ker g'(p)$. (See Exercise Sheet 2.)
+
+\textbf{Exercise 20:}
+
+Provide an example that $T_p S \subsetneq \ker g'(p)$, when $p$ is not a regular point.
+
+Denote the coordinates of $g$ by $g_1, \ldots, g_m$. Since, the $i$-th row of the Jacobian $\frac{\partial (g_1,\ldots,g_m)}{\partial (x_1,\ldots,x_{n+m})}(p)$ is $\nabla g_i(p)$, for each $i = 1, \ldots, m$, it is easy to see that
+
+\[
+v \in \ker g'(p) \Longleftrightarrow v \in (\operatorname{span}_{\mathbb{R}}\{\nabla g_1(p), \ldots, \nabla g_m(p)\})^\perp.
+\]
+
+Thus one has $T_p S = (\operatorname{span}_{\mathbb{R}}\{\nabla g_1(p), \ldots, \nabla g_m(p)\})^\perp$, which is equivalent to the following:
+
+\[
+(T_p S)^\perp = \operatorname{span}_{\mathbb{R}}\{\nabla g_1(p), \ldots, \nabla g_m(p)\}.
+\tag{12}
+\]
+
+Suppose that $f : U \to \mathbb{R}$ is a differentiable function such that $p$ is a point of local extremum of $f|_S$. Then, for any $v \in T_p S$, it is readily seen that
+
+\[
+\nabla f(p) \cdot v = f'(p)v = \frac{d}{dt}\Big|_{t=0} f(\gamma(t)) = 0,
+\]
+
+where $\varepsilon > 0$, $\gamma : (-\varepsilon, \varepsilon) \to \mathbb{R}^{n+m}$ is a $C^1$ map such that $\gamma(-\varepsilon, \varepsilon) \subseteq S$, $\gamma(0) = p$ and $\gamma'(0) = v$. This shows that $\nabla f(p) \in (T_p S)^\perp$. In view of (12), it is now immediate that there exist $\lambda_1, \ldots, \lambda_m \in \mathbb{R}$ such that
+
+\[
+\nabla f(p) = \lambda_1 \nabla g_1(p) + \cdots + \lambda_m \nabla g_m(p).
+\tag{13}
+\]
+
+The numbers $\lambda_1, \ldots, \lambda_m$ are called the \textbf{\textit{Lagrange's multipliers}}
+
+
+\textbf{Remark 10:}
+
+I. Lagrange's multiplier method provides a necessary condition for a constrained local extremum. Hence, assuming all points of $S$ are regular, the points obtained by solving (13) must be tested further to determine whether they yield a local extremum. Indeed, there may exists $p \in S$ for which (13) may hold for some $\lambda_1, \ldots, \lambda_m \in \mathbb{R}$, however, $p$ is not a point of local extremum. To see this, consider the example $g : \mathbb{R}^2 \to \mathbb{R}$, $g(x, y) := y$, $f : \mathbb{R}^2 \to \mathbb{R}$, $f(x, y) := x^3$, and $S := g^{-1}(\{0\}) = \{(x, 0) : x \in \mathbb{R}\}$. It is immediate that, although $\nabla f(0, 0) = 0 = 0 \cdot \nabla g(0, 0)$, $f|_S$ does not have a local maximum or minimum at $(0, 0)$.
+
+II. Let $h : \mathbb{R}^{n+1} \times \mathbb{R}^m \to \mathbb{R}$, $h(x, y) := f(x) - y \cdot g(x)$. It is easy to see that, if (13) holds for $p \in S$ and $\lambda_1, \ldots, \lambda_m \in \mathbb{R}$, then $\nabla h(p, \lambda) = 0$, where $\lambda := (\lambda_1, \ldots, \lambda_m)$. This shows that adding Lagrange multipliers converts a constrained problem into an unconstrained one, and the necessary condition (13) for constrained local extremum is recovered from the first order necessary condition for unconstrained local extremum applied to $h$.
+
+The following is an interesting application of Lagrange's method:
+
+\begin{center}
+    \textbf{\textit{Application Of Lagrange's Method}}
+\end{center}
+
+\begin{center}
+    \textbf{\textit{Spectral Theorem For Symmetric Matrices}}
+\end{center}
+
+\textbf{Spectral theorem for symmetric matrices:} Let $n \in \mathbb{N}$ and $A \in M_n(\mathbb{R})$ is symmetric. Then there exists $P \in O(n)$ such that $P^{-1} A P$ is diagonal.
+
+To see this, consider the function $g_1(x) = \|x\|^2 - 1$, $\forall x \in \mathbb{R}^n$. Then $S := g_1^{-1}(0)$ is the unit sphere $S^{n-1}$. Let $f : \mathbb{R}^n \to \mathbb{R}$, $f(x) := Ax \cdot x = x^t A x$. Note that, for all $x \in \mathbb{R}^n$, $\nabla f(x) = 2Ax$ and $\nabla g_1(x) = 2x$. Since $S^{n-1}$ is compact, there exists $v_1 \in S^{n-1}$ such that $f(v_1) = \max_{\|x\|=1} f(x)$. From (13), it follows that, there exists $\lambda_1 \in \mathbb{R}$ such that $\nabla f(v_1) = \lambda_1 \nabla g_1(v_1)$, i.e., $Av_1 = \lambda_1 v_1$. We now introduce $g_2 : \mathbb{R}^n \to \mathbb{R}$, $g_2(x) := x \cdot v_1$. Then $\nabla g_2(x) = v_1$, for all $x \in \mathbb{R}^n$. Again, since $\{x \in \mathbb{R}^n : g_1(x) = g_2(x) = 0\} = \{x \in S^{n-1} : x \cdot v_1 = 0\}$ is compact, in view of (13), we obtain an unit vector $v_2$ orthogonal to $v_1$ and $\lambda_2, \sigma \in \mathbb{R}$ such that $Av_2 = \lambda_2 v_2 + \sigma v_1$. Clearly
+
+\[
+\sigma = \sigma v_1 \cdot v_1 = Av_2 \cdot v_1 = v_2 \cdot Av_1 = \lambda_1 v_2 \cdot v_1 = 0,
+\]
+
+since $v_1$ is an eigenvector with eigenvalue $\lambda_1$.
+
+Thus $\lambda_2$ is an eigenvalue. Note that $\lambda_1 \geq \lambda_2$ and $v_1, v_2$ are orthogonal to each other. Continuing this process, we obtain eigenvalues $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_{n-1}$ and an orthogonal set of vectors $\{v_1, v_2, \ldots, v_{n-1}\} \subseteq \mathbb{R}^n$ such that $Av_i = \lambda_i v_i$, for all $i = 1, \ldots, n-1$. There exists a unit vector $v_n \in \{v_1, v_2, \ldots, v_{n-1}\}^\perp$. It is clear that $\{v_1, v_2, \ldots, v_n\}$ is an orthonormal basis of $\mathbb{R}^n$. Hence, $Av_n = \sum_{i=1}^{n-1} \sigma_i v_i + \lambda_n v_n$, for some $\sigma_1, \ldots, \sigma_{n-1}, \lambda_n \in \mathbb{R}$. Taking the dot product of both sides with $v_1, \ldots, v_{n-1}$, one obtains that $\sigma_1 = \cdots = \sigma_{n-1} = 0$, $A$ is symmetric. This shows that $v_n$ is an eigen vector corresponding to the eigenvalue $\lambda_n$. Also note that, $\lambda_{n-1} \geq \lambda_n$. Finally, consider the $n \times n$ matrix $P$ such that the $i$-th column of $P$ is $v_i$, for all $i = 1, \ldots, n$.
+
+\textbf{Definition 2:} Let $E, F$ be Banach spaces over $\mathbb{R}$, $a \in U \subseteq_{open} E$, and $f : U \to F$ be differentiable. We say that $f$ is twice differentiable at $a$ if $f' : U \to L(E; F)$ is differentiable at $a$. In view of the fact that $L(E; L(E; F))$ is isometrically isomorphic to $L(E, E; F)$, $f''(a)$ is regarded as an element of $L(E, E; F)$, i.e., continuous $F$ valued bilinear map on $E$.
+
+\textbf{Exercise 21:}
+
+Let $E, F$ and $G$ be Banach spaces over $\mathbb{R}$, $a \in U \subseteq_{open} E$, and $\varphi : U \to L(E; F)$ be differentiable at $a$.
+
+I. Fix any $A \in L(G; E)$. Show that the map $U \to L(G; F)$, $x \mapsto \varphi(x) \circ A$, is differentiable at $a$, and the derivative at $a$ is the linear map $E \to L(G; F)$, $v \mapsto \varphi'(a)(v) \circ A$.
+
+II. Fix any $w \in E$. Show that the map $U \to F$, $x \mapsto \varphi(x)(w)$, is differentiable at $a$, and the derivative at $a$ is the linear map $E \to F$, $v \mapsto \varphi'(a)(v)(w)$.
+
+The following is a standard application of the Mean Value Theorem:
+
+\[
+f \text{ is twice differentiable at } a \Longrightarrow f''(a) \text{ is symmetric, i.e., } f''(a)(v, w) = f''(a)(w, v), \ \forall v, w \in E.
+\tag{14}
+\]
+
+Suppose that $n \in \mathbb{N}$, $E_1, \ldots, E_n, F$ are Banach spaces over $\mathbb{R}$, $U \subseteq E_1 \times \cdots \times E_n$ is open, and $f : U \to F$ is twice differentiable at $a$. Recall from (2) that,
+
+\[
+f'(x) = \sum_{j=1}^n \frac{\partial f}{\partial x_j}(x) \circ q_j, \ \forall x \in U.
+\tag{15}
+\]
+
+Since, for all $i, j = 1, \ldots, n$, one has $q_j \circ v_i = \delta_{ij}$, where $v_i : E_i \to E$ is the canonical inclusion $x \mapsto (0, \ldots, 0, x_i, 0, \ldots, 0)$, from (15) one obtains that $f'(x) \circ v_i = \frac{\partial f}{\partial x_i}(x)$, for all $x \in U$ and $i = 1, \ldots, n$. It follows that $\frac{\partial f}{\partial x_j}$ is differentiable at $a$, for all $j = 1, \ldots, n$; consequently, all mixed partial derivatives $\frac{\partial^2 f}{\partial x_i \partial x_j}(a) \in L(E_i; L(E_j; F)) \cong L(E_i, E_j; F)$ exist. Further, for all $j = 1, \ldots, n$, using Part I of Exercise Sheet 21, we obtain that $\frac{\partial f}{\partial x_j}(x) \circ q_j$ is differentiable at $a$. Now we find $\frac{\partial}{\partial x_i} \left( \frac{\partial f}{\partial x_j}(x) \circ q_j \right)(a)$, for any $i, j = 1, \ldots, n$. Choose $r > 0$ such that for all $x_i \in B(a_i; r)$, $(a_1, \ldots, a_{i-1}, x_i, a_{i+1}, \ldots, a_n) \in U$. Then, for any $i, j = 1, \ldots, n$, $\frac{\partial}{\partial x_i} \left( \frac{\partial f}{\partial x_j}(x) \circ q_j \right)(a)$ is the derivative of the following map at $a$:
+
+\[
+B(a_i; \delta) \to L(E_j; F) \to L(E; F), \ x_i \mapsto \frac{\partial f}{\partial x_j}(a_1, \ldots, a_{i-1}, x_i, a_{i+1}, \ldots, a_n) \mapsto \frac{\partial f}{\partial x_j}(a_1, \ldots, a_{i-1}, x_i, a_{i+1}, \ldots, a_n) \circ p_j.
+\]
+
+Again, from Part I of Exercise Sheet 21, one obtains that
+
+\[
+\frac{\partial}{\partial x_i} \left( \frac{\partial f}{\partial x_j}(x) \circ q_j \right)(a)(h_i) = \frac{\partial^2 f}{\partial x_i \partial x_j}(a)(h_i) \circ q_j, \ \forall h_i \in E_i.
+\]
+
+In light of this and (15), we establish the following basic formula that expresses $f''(a)$ in terms of the mixed partial derivatives at $a$:
+\[
+f''(a) = \sum_{i=1}^n \frac{\partial f'}{\partial x_i}(a) \circ q_i
+= \sum_{i=1}^n \frac{\partial}{\partial x_i} \left( \sum_{j=1}^n \frac{\partial f}{\partial x_j}(x) \circ q_j \right)(a) \circ q_i
+= \sum_{i=1}^n \sum_{j=1}^n \frac{\partial}{\partial x_i} \left( \frac{\partial f}{\partial x_j}(x) \circ q_j \right)(a) \circ q_i.
+\]
+
+Thus
+
+\[
+f''(a)(h) = \sum_{i=1}^n \sum_{j=1}^n \frac{\partial}{\partial x_i} \left( \frac{\partial f}{\partial x_j}(x) \circ q_j \right)(a)(h_i)
+= \sum_{i=1}^n \sum_{j=1}^n \frac{\partial^2 f}{\partial x_i \partial x_j}(a)(h_i) \circ q_j,
+\quad \forall h = (h_1, \ldots, h_n) \in E_1 \times \cdots \times E_n.
+\]
+
+In particular,
+
+\[
+f''(a)(h, k) = f''(a)(h)(k)
+= \sum_{i=1}^n \sum_{j=1}^n \frac{\partial^2 f}{\partial x_i \partial x_j}(a)(h_i)(k_j),
+\quad \forall h = (h_1, \ldots, h_n), \ k = (k_1, \ldots, k_n) \in E_1 \times \cdots \times E_n.
+\tag{16}
+\]
+
+\textbf{Exercise 22:}
+
+Let $f$ be as above in (16). Show that, for any $i, j = 1, \ldots, n$, $h_i \in E_i$ and $k_j \in E_j$, 
+\[
+\frac{\partial^2 f}{\partial x_i \partial x_j}(a)(h_i, k_j)
+=
+\frac{\partial^2 f}{\partial x_j \partial x_i}(a)(k_j, h_i).
+\]
+In particular, deduce that, for all $i = 1, \ldots, n$, 
+\[
+\frac{\partial^2 f}{\partial x_i^2}(a) \in L(E_i, E_i; F)
+\]
+is symmetric.
+
+In the special case $E_1 = \cdots = E_n = \mathbb{R}$, each 
+\[
+\frac{\partial^2 f}{\partial x_i \partial x_j}(a) \in L(\mathbb{R}, \mathbb{R}; F)
+\]
+is canonically identified with the vector 
+\[
+\frac{\partial^2 f}{\partial x_i \partial x_j}(a)(1,1) \in F.
+\]
+Hence, (16) reduces to the following:
+
+\[
+f''(a)(h, k)
+=
+\sum_{i=1}^n \sum_{j=1}^n h_i k_j
+\frac{\partial^2 f}{\partial x_i \partial x_j}(a),
+\quad
+\forall h = (h_1, \ldots, h_n), \ k = (k_1, \ldots, k_n) \in E_1 \times \cdots \times E_n.
+\tag{17}
+\]
+
+From (17), it follows at once that
+
+\[
+\frac{\partial^2 f}{\partial x_i \partial x_j}(a)
+=
+\frac{\partial^2 f}{\partial x_j \partial x_i}(a),
+\quad
+\forall i, j = 1, \ldots, n,
+\]
+
+owing to (14).
+
+\textbf{Exercise 23:}
+
+Let $n \in \mathbb{N}$, $E_1, \ldots, E_n, F$ be Banach spaces over $\mathbb{R}$, $a \in U \subseteq E_1 \times \cdots \times E_n$ be open, and $f : U \to F$. Assume that, for all $i = 1, \ldots, n$, $\frac{\partial f}{\partial x_i}$ exists and continuous on $U$, and for all $i, j = 1, \ldots, n$, $\frac{\partial^2 f}{\partial x_i \partial x_j}$ exists and continuous at $a$. Then show that $f$ is twice differentiable at $a$.
+
+Let $E$ be a Banach space over $\mathbb{R}$ and $a \in U \subseteq E$ be open. We say that $f : U \to \mathbb{R}$ has a local minimum at $a$ if there exists $r > 0$ such that $B(a; r) \subseteq U$ and $f(x) \geq f(a)$, for all $x \in B(a; r)$. Similarly, we can define what it means for $f$ to have a local maximum at $a$. Since $U$ is open, given any $h \in E$, it is easy to see that there exists $\varepsilon > 0$ such that, for all $t \in (-\varepsilon, 1 + \varepsilon)$, $a + th \in U$. Consider the function $\varphi : (-\varepsilon, 1 + \varepsilon) \to \mathbb{R}$, $\varphi(t) := f(a + th)$. From the chain rule, it is clear that
+
+\[
+f \text{ has a local minimum or maximum at } a \text{ and } f \text{ is differentiable at } a \Longrightarrow f'(a) = \varphi'(0) = 0.
+\tag{18}
+\]
+
+Further, if $f$ is twice differentiable at $a$, then again by the Chain rule and Part II of Exercise 21, one has $\varphi''(0)$ exists and is equal to $f''(a)(h, h)$. Applying the Taylor's theorem to $\varphi$, we obtain
+
+\[
+\varphi(t) = \varphi(0) + \varphi'(0)t + \varphi''(0)\frac{t^2}{2} + R(t), \text{ where } \frac{R(t)}{t^2} \to 0.
+\tag{19}
+\]
+
+Suppose now that $f$ has a local minimum at $a$, $r > 0$ is such that $B(a; r) \subseteq U$ and $f(x) \geq f(a)$, for all $x \in B(a; r)$, and $h \in B(0; r)$. Then (18) and (19) yield
+
+\[
+0 \leq f(a + th) - f(a) = \varphi(t) - \varphi(0) = \varphi'(0)t + \varphi''(0)\frac{t^2}{2} + R(t) = f''(a)(h, h)\frac{t^2}{2} + R(t), \ \forall t \in (-\varepsilon, 1 + \varepsilon).
+\]
+
+This shows that $f''(a)(h, h) + \frac{R(t)}{t^2} \geq 0$, for all $t \in (-\varepsilon, 1 + \varepsilon) \setminus \{0\}$. As a result, $f''(a)(h, h) = \lim_{t \to 0} \left( f''(a)(h, h) + \frac{R(t)}{t^2} \right) \geq 0$, which further implies that $f''(a)(v, v) \geq 0$, holds for $v \in E$, i.e., the symmetric bilinear form $f''(a)$ is positive. Thus, we deduce the following necessary criterion for $f$ to have a local minimum at $a$:
+
+\[
+f \text{ is twice differentiable at } a \text{ and it has a local minimum at } a, \text{ then } f''(a) \text{ is positive}.
+\tag{20}
+\]
+
+Similar to (20), one can prove the necessary condition for $a$ to be a point of local maximum of $f$, when $f$ is twice differentiable at $a$.
+
+Let $n \in \mathbb{N}$, $E, F$ be Banach spaces over $\mathbb{R}$, $a \in U \subseteq_{open} E$, and $f : U \to F$. Inductively, we define the meaning of $f$ is $n$ times differentiable at $a$ as follows. Assume that $f$ is $n - 1$ times differentiable on $U$. If $f^{(n-1)} : U \to L(E, \ldots, E; F)$ is differentiable at $a$, then we say that $f$ is $n$ times differentiable at $a$. Note that $f^{(n)}(a) := (f^{(n-1)})'(a) \in L(E; L(E, \ldots, E; F)) \cong L(E, \ldots, E; F)$. It is clear from the following exercise that, for any $v_1, \ldots, v_n \in E$, $f^{(n)}(a)(v_1, \ldots, v_n)$ is the derivative of the map $U \to F$, $x \mapsto f^{(n-1)}(x)(v_2, \ldots, v_n)$ at the point $a$ applied on the vector $v_1$:
+
+\textbf{Exercise 24:}
+
+Let $k \in \mathbb{N}$, $E, F$ be Banach spaces over $\mathbb{R}$, $a \in U \subseteq_{open} E$, and $\varphi : U \to L(E, \ldots, E; F)$ be differentiable at $a$. Fix any $w_1, \ldots, w_k \in E$. Show that the map $U \to F$, $x \mapsto \varphi(x)(w_1, \ldots, w_k)$, is differentiable at $a$, and the derivative at $a$ is the linear map $E \to F$, $v \mapsto \varphi'(a)(v)(w_1, \ldots, w_k)$.
+
+If $f$ is $n$ times differentiable at $a$, then one can extend (14) to
+
+\[
+f^{(n)}(a) : \underbrace{E \times \cdots \times E}_{n \text{ factors}} \to F \text{ is symmetric, i.e., } \forall \sigma \in S_n \text{ and } v_1, \ldots, v_n \in E, \ f^{(n)}(a)(v_1, \ldots, v_n) = f^{(n)}(a)(v_{\sigma(1)}, \ldots, v_{\sigma(n)}).
+\tag{21}
+\]
+
+\textbf{Exercise 25:}
+
+I. Let $n, d, m \in \mathbb{N}$ be such that $n = d + m$, $E, F$ be Banach spaces over $\mathbb{R}$, $a \in U \subseteq_{open} E$, and $f : U \to F$. Show that $f$ is $n$ times differentiable at $a$ if and only if $f^{(d)}$ is $m$ times differentiable at $a$, and further $f^{(n)}(a) = (f^{(m)})^{(d)}(a)$.
+
+II. Let $m \in \mathbb{N}$, $E, F_1, \ldots, F_m$ be Banach spaces over $\mathbb{R}$. Suppose that $U \subseteq E$ is open and $f : U \to F_1 \times \cdots \times F_m$. Denote the coordinates of $f$ by $f_1, \ldots, f_m$. Show that, for any $n \in \mathbb{N}$, $f$ is $n$ times differentiable at $a \in U$ if and only if each $f_i$ is $n$ times differentiable at $a$, and then $f^{(n)}(a) = (f_1^{(n)}(a), \ldots, f_m^{(n)}(a))$.
+
+\textbf{Exercise 26:}
+
+Let $E, F$ and $G$ be Banach spaces over $\mathbb{R}$, $U$ and $V$ be open subsets of $E$ and $F$ respectively, and $U \xrightarrow{f} V \xrightarrow{g} G$. Assume that $n \in \mathbb{N}$ and $f$ is $n$ times differentiable at $a \in U$ and $g$ is $n$ times differentiable at $f(a)$. Then $g \circ f$ is $n$ times differentiable at $a$.
+
+
+\textbf{Exercise 27:}
+
+Let $n,k \in \mathbb{N}$, $E_1,\dots,E_n,F$ be Banach spaces over $\mathbb{R}$,
+$U \subseteq_{\mathrm{open}} E := E_1 \times \cdots \times E_n$, and
+$f : U \to F$ be $k$ times differentiable at $a \in U$.
+
+\medskip
+
+\textbf{I.} Show that for all $j_1,\dots,j_k \in \{1,\dots,n\}$,
+\[
+\frac{\partial^k f}{\partial x_{j_1}\cdots\partial x_{j_k}}(a)
+\]
+exists.
+
+\medskip
+
+\textbf{II.} Show that
+\[
+f^{(k)}(a)(h_1,\dots,h_k)
+=
+\sum_{j_1,\dots,j_k=1}^{n}
+\frac{\partial^k f}{\partial x_{j_1}\cdots\partial x_{j_k}}(a)
+\big(h_{1,j_1},\dots,h_{k,j_k}\big),
+\]
+for all $i=1,\dots,k$ and $h_i=(h_{i,1},\dots,h_{i,n}) \in E$.
+
+
+\medskip
+
+\textbf{III.} If $E_1=\cdots=E_n=\mathbb{R}$, deduce that
+\[
+f^{(k)}(a)(h_1,\dots,h_k)
+=
+\sum_{j_1,\dots,j_k=1}^{n}
+h_{1,j_1}\cdots h_{k,j_k}
+\frac{\partial^k f}{\partial x_{j_1}\cdots\partial x_{j_k}}(a),
+\]
+for all $h_i=(h_{i,1},\dots,h_{i,n}) \in \mathbb{R}^n$.
+
+\medskip
+
+\textbf{IV.} In Part III, show that all partial derivatives of order $k$ commute, i.e.,
+for all $j_1,\dots,j_k \in \{1,\dots,n\}$ and $\sigma \in S_k$,
+\[
+\frac{\partial^k f}{\partial x_{j_1}\cdots\partial x_{j_k}}(a)
+=
+\frac{\partial^k f}{\partial x_{j_{\sigma(1)}}\cdots\partial x_{j_{\sigma(k)}}}(a).
+\]
+
+\bigskip
+
+\textbf{Exercise 28:}
+
+Let $n,k \in \mathbb{N}$, $E_1,\dots,E_n,F$ be Banach spaces over $\mathbb{R}$,
+$U \subseteq_{\mathrm{open}} E := E_1 \times \cdots \times E_n$, and
+$f : U \to F$ be $k$ times differentiable on $U$.
+
+\medskip
+
+\textbf{I.} Show that
+\[
+f^{(k)} \text{ is continuous at } a
+\quad\Longleftrightarrow\quad
+\forall j_1,\dots,j_k \in \{1,\dots,n\},\ 
+\frac{\partial^k f}{\partial x_{j_1}\cdots\partial x_{j_k}}
+: U \to L(E_{j_1},\dots,E_{j_k};F)
+\text{ is continuous at } a.\]
+
+\medskip
+\emph{Hint:} Use (22).
+
+\medskip
+
+\textbf{II.} We say that $f$ is $k$ times continuously differentiable (or of class $C^k$)
+and denote it by $f \in C^k(U)$, if $f$ is $k$ times differentiable on $U$ and
+\[
+f^{(k)} : U \to L(\underbrace{E,\dots,E}_{k\ \text{copies}};F)
+\]
+is continuous.
+
+Deduce from Part I that
+\[
+f \in C^k(U)
+\quad\Longleftrightarrow\quad
+\forall j_1,\dots,j_k \in \{1,\dots,n\},\ 
+\frac{\partial^k f}{\partial x_{j_1}\cdots\partial x_{j_k}}
+\text{ is continuous on } U.
+\]
+
+\textbf{Exercise 29:}
+
+Let $n,k \in \mathbb{N}$, $E_1,\dots,E_n,F$ be Banach spaces over $\mathbb{R}$,
+$U \subseteq_{\mathrm{open}} E := E_1 \times \cdots \times E_n$, and
+$f : U \to F$. Assume that all partial derivatives of order $k-1$ exist
+and are continuous on $U$, and all partial derivatives of order $k$ exist
+on $U$ and are continuous at $a$. Show that $f$ is $k$ times differentiable at $a$.
+
+\bigskip
+
+Let $E,F$ be real Banach spaces, $U \subseteq E$ open and $f : U \to F$.
+If $f$ is $k$ times differentiable at a point $a \in U$, where $k \in \mathbb{N}$,
+it follows from (21) that the derivative of the map
+\[
+E \longrightarrow F, \qquad h \longmapsto f^{(k)}(a)(h,\dots,h)
+\]
+at any $h \in E$ is the following continuous linear map
+\[
+E \longrightarrow F, \qquad \xi \longmapsto k\, f^{(k)}(a)(h,\dots,h,\xi).
+\]
+
+Since $f^{(k)}(a) = (f')^{(k-1)}(a)$, we may treat
+\[
+f^{(k)}(a)(h,\dots,h,\xi)
+\]
+as
+\[
+(f')^{(k-1)}(a)(h,\dots,h)(\xi),
+\]
+for all $h,\xi \in E$, owing to the identification
+\[
+L(\underbrace{E,\dots,E}_{k\ \text{copies}};F)
+\;\cong\;
+L(\underbrace{E,\dots,E}_{k-1\ \text{copies}};L(E;F)).
+\]
+
+Thus the derivative of
+\[
+E \longrightarrow F, \qquad h \longmapsto f^{(k)}(a)(h,\dots,h)
+\]
+is simply
+\[
+E \longrightarrow L(E;F), \qquad
+h \longmapsto k\, (f')^{(k-1)}(a)(h,\dots,h).
+\]
+
+Choose $r>0$ such that $B(a;r) \subseteq U$.
+Assume now that $f$ is $n$ times differentiable at $a$, where $n \in \mathbb{N}$.
+Consider the function
+\[
+\varphi : B(a;r) \longrightarrow F,
+\qquad
+\varphi(h)
+:=
+f(a+h)
+-
+\sum_{k=0}^{n}
+\frac{1}{k!}\, f^{(k)}(a)(h,\dots,h).
+\]
+
+Then it follows that
+\[
+\varphi'(h)
+=
+f'(a+h)
+-
+\sum_{k=0}^{n-1}
+\frac{1}{k!}\,(f')^{(k)}(a)(h,\dots,h)
+\in L(E;F),
+\qquad
+\text{whenever } \|h\|<r.
+\tag{24}
+\]
+
+In view of (24), using induction and the Mean Value Theorem,
+one proves the corresponding asymptotic property.
+
+\begin{center}
+    \textbf{\textit{Taylor's Formula}}
+\end{center}
+
+\textbf{Taylor's formula:}
+Let $E,F$ be Banach spaces over $\mathbb{R}$,
+$U \subseteq_{\mathrm{open}} E$, and $f : U \to F$ be $n$ times differentiable at $a \in U$.
+Then
+\[
+f(a+h)
+=
+f(a)
++
+\sum_{k=1}^{n}
+\frac{1}{k!}\, f^{(k)}(a)h^k
++
+o(\|h\|^n),
+\tag{25}
+\]
+where for each $k=1,\dots,n$, $h^k$ denotes the multivector $(h,\dots,h) \in E^k$.
+
+\bigskip
+
+\textbf{Remark 11:}
+
+\begin{enumerate}
+\item
+\[
+f(a)
++
+\sum_{k=1}^{n}
+\frac{1}{k!}\, f^{(k)}(a)(x-a)^k
+\]
+is often referred to as the $n$-th order best approximation of $f$ at $a$.
+
+\item
+Let $E=\mathbb{R}^d$, where $d \in \mathbb{N}$.
+Given $1 \le k \le n$ and $i_1,\dots,i_d \in \{0,1,\dots,k\}$ such that
+\[
+i_1+\cdots+i_d = k,
+\]
+there are exactly
+\[
+\frac{k!}{i_1!\cdots i_d!}
+\]
+$d$-tuples in which each $j=1,\dots,d$ occurs $i_j$ times.
+Hence, in this case (25) can be rewritten as
+\[
+f(a+h)
+=
+f(a)
++
+\sum_{k=1}^{n}
+\left(
+\sum_{i_1+\cdots+i_d=k}
+\frac{h_1^{\,i_1}\cdots h_d^{\,i_d}}{i_1!\cdots i_d!}
+\,
+\frac{\partial^k f}{\partial x_1^{i_1}\cdots\partial x_d^{i_d}}(a)
+\right)
++
+o(\|h\|^n).
+\]
+\end{enumerate}
+
+\bigskip
+
+An important application of Taylor's formula is the following sufficient condition for a local minimum.
+
+\medskip
+
+\textbf{\textit{Second-derivative test for a local minimum:}}
+
+Let $E$ be a real Banach space and $f : U \to \mathbb{R}$ be twice differentiable at $a \in U$.
+Assume that
+\[
+f'(a)=0
+\quad \text{and} \quad
+f''(a)
+\text{ is positive and non-degenerate}.
+\]
+Then $a$ is a point of local minimum of $f$.
+
+\medskip
+
+\textbf{Note:}
+The following crucial property of positive non-degenerate bilinear forms
+has been used in the proof above:
+\[
+\langle \cdot , \cdot \rangle \in L(E,E;\mathbb{R})
+\text{ positive and non-degenerate }
+\;\Longrightarrow\;
+\exists \lambda>0 \text{ such that }
+\langle x,x\rangle \ge \lambda \|x\|^2,
+\quad \forall x \in E.
+\tag{26}
+\]
+
+When $E$ is finite dimensional, (26) is an immediate consequence
+of the compactness of the sphere
+\[
+\{x \in E : \|x\|=1\}.
+\]
+
+\textbf{Remark 12:}
+
+\begin{enumerate}
+\item
+If $E=\mathbb{R}^n$, where $n \in \mathbb{N}$, then $f''(a)$ is positive and
+non-degenerate if and only if all eigenvalues of the Hessian matrix
+\[
+\nabla^2 f(a)
+=
+\left(
+\frac{\partial^2 f}{\partial x_i \partial x_j}(a)
+\right)_{i,j=1,\dots,n}
+\]
+are positive. This condition is further equivalent to requiring that all
+principal minors
+\[
+\left(
+\frac{\partial^2 f}{\partial x_i \partial x_j}(a)
+\right)_{i,j=1,\dots,k}
+\]
+have positive determinant. Considering $-f$, one obtains a similar sufficient
+condition for a local maximum of $f$.
+
+\item
+If $f'(a)=0$ but $f''(a)$ is neither positive nor negative, then $a$
+cannot be a point of local extremum of $f$. Such a point $a$ is said to be
+a \emph{saddle point} of $f$. Note that, if $a \in U$ is a saddle point of $f$,
+then for every $r>0$ there exist $x,y \in B(a;r)$ such that
+\[
+f(x) < f(a) < f(y).
+\]
+
+\item
+If $a \in U$ is such that $f'(a)=0$, then we say that $a$ is a
+\emph{critical point} of $f$. If, in addition, $f$ is twice differentiable
+and $f''(a)$ is non-degenerate, then $a$ is called a
+\emph{non-degenerate critical point} of $f$; otherwise $a$ is called a
+\emph{degenerate critical point}. A degenerate critical point may be a
+point of local extremum or a saddle point. Consider the following examples:
+\begin{enumerate}
+\item $f : \mathbb{R}^2 \to \mathbb{R}$,
+\[
+f(x,y) := x^2 + y^3.
+\]
+\item $f : \mathbb{R}^2 \to \mathbb{R}$,
+\[
+f(x,y) := x^2 + y^4.
+\]
+\end{enumerate}
+
+In both examples we have
+\[
+\nabla f(0,0)=0
+\quad \text{and} \quad
+\nabla^2 f(0,0)
+=
+\begin{pmatrix}
+2 & 0 \\
+0 & 0
+\end{pmatrix}.
+\]
+However, in the former case $(0,0)$ is a saddle point, while in the latter
+case it is a point of absolute minimum.
+\end{enumerate}
+
+\bigskip
+
+\textbf{Corollary 4:}
+
+Let $U \subseteq_{\mathrm{open}} \mathbb{R}^2$ and
+$f : U \to \mathbb{R}$ be twice differentiable at $a \in U$.
+Denote by $\Delta$ the determinant of the Hessian matrix of $f$ at $a$.
+Then:
+
+\begin{enumerate}
+\item
+\[
+\Delta > 0
+\quad \text{and} \quad
+\frac{\partial^2 f}{\partial x_1^2}(a) > 0
+\quad \Longrightarrow \quad
+a \text{ is a point of local minimum of } f.
+\]
+
+\item
+\[
+\Delta > 0
+\quad \text{and} \quad
+\frac{\partial^2 f}{\partial x_1^2}(a) < 0
+\quad \Longrightarrow \quad
+a \text{ is a point of local maximum of } f.
+\]
+
+\item
+\[
+\Delta < 0
+\quad \Longrightarrow \quad
+a \text{ is a saddle point of } f.
+\]
+\end{enumerate}
+
+\bigskip
+
+\textbf{Exercise 30:}
+
+Find and classify the critical points, if any, of the following functions:
+
+\begin{enumerate}
+\item
+$f : \mathbb{R}^2 \to \mathbb{R}$,
+\[
+f(x,y) := y^2 + x^2 y + x^4.
+\]
+
+\item
+$f : \mathbb{R}^2 \to \mathbb{R}$,
+\[
+f(x,y) := x^2 + y^2 + x + y + xy.
+\]
+
+\item
+$f : \mathbb{R}^2 \to \mathbb{R}$,
+\[
+f(x,y) := (x-1)^4 + (x-y)^4.
+\]
+
+\item
+$f : \mathbb{R}^2 \to \mathbb{R}$,
+\[
+f(x,y) := y^2 - x^3.
+\]
+\end{enumerate}
+
+\textbf{Exercise 31:}
+
+Let $k \in \mathbb{R}$, and
+\[
+f(x,y) := x^2 + kxy + y^2, \qquad (x,y) \in \mathbb{R}^2.
+\]
+
+\begin{enumerate}
+\item
+For what values of $k$ does the second derivative test guarantee that
+$f$ has a saddle point at $(0,0)$?
+
+\item
+For what values of $k$ does the second derivative test guarantee that
+$f$ has a local minimum at $(0,0)$?
+
+\item
+For what values of $k$ is the second derivative test inconclusive?
+Justify your answer.
+\end{enumerate}
+
+\bigskip
+
+\textbf{Exercise 32:}
+
+Find $a,b \in \mathbb{R}$ with $a<b$ for which
+\[
+\int_a^b (20 - x - x^2)\,dx
+\]
+is maximum.
+
+\bigskip
+
+\textbf{Exercise 33:}
+
+Let $n \in \mathbb{N}$, $U \subseteq_{\mathrm{open}} \mathbb{R}^n$,
+and $f : U \to \mathbb{R}$ be of class $C^2$.
+Show that the non-degenerate critical points of $f$ are isolated
+in the set of all critical points of $f$, i.e.,
+
+if $a \in U$ is a critical point of $f$, then there exists $r>0$
+such that $B(a;r)$ does not contain any other critical point of $f$
+than $a$.
+
+\textbf{Exercise 34:}
+
+Let $J \subseteq \mathbb{R}$ be an open interval, $F$ a Banach space over $\mathbb{K}$,
+and $\varphi : J \to F$ be $n+1$ times differentiable, where $n \in \mathbb{N}$.
+Show that the following defines a differentiable function
+\[
+J \longrightarrow F,
+\qquad
+t \longmapsto
+\varphi(t)
++ (1-t)\varphi'(t)
++ \cdots
++ \frac{1}{n!}(1-t)^n \varphi^{(n)}(t),
+\]
+whose derivative is
+\[
+J \longrightarrow F,
+\qquad
+t \longmapsto
+\frac{1}{n!}(1-t)^n \varphi^{(n+1)}(t).
+\]
+
+\bigskip
+
+Let $E,F$ be Banach spaces over $\mathbb{R}$, $U \subseteq E$, and
+$f : U \to F$ be $n+1$ times differentiable, where $n \in \mathbb{N}$.
+Suppose that $a \in U$ and $h \in E$ are such that $a+th \in U$
+for all $t \in [0,1]$.
+Choose $\varepsilon>0$ so that for all $t \in (-\varepsilon,1+\varepsilon)$,
+$a+th \in U$.
+Consider the function
+\[
+\varphi : (-\varepsilon,1+\varepsilon) \longrightarrow F,
+\qquad
+\varphi(t) := f(a+th).
+\]
+
+Then inductively one finds that, for $k=1,\dots,n+1$,
+\[
+\varphi^{(k)}(t)
+=
+f^{(k)}(a+th)h^k,
+\qquad
+\forall t \in (-\varepsilon,1+\varepsilon).
+\]
+
+Using the first part, we obtain
+\[
+\frac{d}{dt}
+\left(
+\varphi(t)
++ (1-t)\varphi'(t)
++ \cdots
++ \frac{1}{n!}(1-t)^n \varphi^{(n)}(t)
+\right)
+=
+\frac{1}{n!}(1-t)^n \varphi^{(n+1)}(t),
+\]
+that is,
+\[
+\frac{d}{dt}
+\left(
+f(a+th)
++ (1-t)f'(a+th)h
++ \cdots
++ \frac{1}{n!}(1-t)^n f^{(n)}(a+th)h^n
+\right)
+=
+\frac{1}{n!}(1-t)^n f^{(n+1)}(a+th)h^{n+1}.
+\]
+
+\bigskip
+
+If, in addition, we assume that $f^{(n+1)}$ is bounded, i.e.,
+there exists $M>0$ such that
+\[
+\|f^{(n+1)}(x)\| \le M,
+\qquad
+\forall x \in U,
+\]
+then the Mean Value Theorem yields
+\[
+\left\|
+f(a+h)
+- f(a)
+- f'(a)h
+- \cdots
+- \frac{1}{n!}f^{(n)}(a)h^n
+\right\|
+\le
+\frac{M}{(n+1)!}\|h\|^{n+1}.
+\tag{27}
+\]
+
+This is called Taylor's formula with Lagrange's form of the remainder.
+
+\medskip
+
+Further, if $F=\mathbb{R}$ and
+\[
+f^{(n+1)} : U \to L(\underbrace{E,\dots,E}_{n+1\ \text{copies}};\mathbb{R})
+\]
+is continuous, then applying Taylor's formula in one-variable calculus
+with the integral form of the remainder to $\varphi$ yields the
+corresponding integral remainder formula.
+
+\[
+f(a + h) = \varphi(1) = \varphi(0) + \sum_{k=1}^{n} \frac{\varphi^{(k)}(0)}{k!} + \int_{0}^{1} \frac{(1 - t)^n}{n!} \varphi^{(n+1)}(t) \, dt
+\tag{28}
+\]
+
+\[
+= f(a) + f'(a)h + \cdots + \frac{1}{n!} f^{(n)}(a)h^n + \int_{0}^{1} \frac{(1 - t)^n}{n!} f^{(n+1)}(a + th)h^{n+1} \, dt.
+\]
+
+(28) It is commonly referred to as Taylor's formula with the integral form of the remainder.
+
+Let $E, F$ be Banach spaces over $K$, and $U \subseteq E$ be open. We say that $f : U \to F$ is infinitely differentiable or of class $C^{\infty}$ if $f \in C^n(U)$, for all $n \in \mathbb{N}$. It follows from Exercise 29 that $f$ is infinitely differentiable if all partial derivatives of all orders exist and continuous on $U$. The following are some simple examples of infinitely differentiable functions:
+
+1. Constant functions.
+
+2. Let $A \in L(E; F)$. Consider $f : U \to F$, $f(x) := Ax$. Then $f \in C^{\infty}(U)$. In fact, $f^{(n)} = 0$, for all $n \geq 2$.
+
+3. Suppose that $E_1, E_2, F$ are Banach spaces over $K$, $U \subseteq_{open} E_1 \times E_2$ and $B \in L(E_1, E_2; F)$. Given any $(x_1, x_2) \in E_1 \times E_2$, the following is readily seen to be a continuous linear map from $E_1 \times E_2$ to $F$:
+
+\[
+B'(x_1, x_2) : E_1 \times E_2 \to F, \quad B'(x_1, x_2)(\xi_1, \xi_2) := B(x_1, \xi_1) + B(x_2, \xi_2).
+\]
+
+This gives rise to a map $B'$ from $E_1 \times E_2$ to $L(E_1 \times E_2; F)$ as follows:
+
+\[
+B' : E_1 \times E_2 \to L(E_1 \times E_2; F), \quad (x_1, x_2) \mapsto B'(x_1, x_2).
+\]
+
+One can easily verify that $B'$ is continuous and linear. Consider $f : U \to F$, $f(x_1, x_2) := B(x_1, x_2)$. Then $f \in C^{\infty}(U)$. In fact, $f'(x_1, x_2) = B'(x_1, x_2)$, $f''(x_1, x_2) = B'$, for all $(x_1, x_2) \in U$. Consequently, $f^{(n)} = 0$, for all $n \geq 3$.
+
+4. Let $\varphi : \operatorname{Isom}(E; F) \to \operatorname{Isom}(F; E)$, $\varphi(A) := A^{-1}$ is infinitely differentiable. Indeed, the map
+
+\[
+L(F; E) \times L(E; F) \times L(F; E) \to L(F; E), \quad (A, H, B) \mapsto A \circ H \circ B
+\]
+
+is continuous and trilinear. For any $A, B \in L(F; E)$, consider the map
+
+\[
+\psi(A, B) : L(E; F) \to L(F; E), \quad H \mapsto A \circ H \circ B.
+\]
+
+It is easy to see that $\psi(A, B)$ is linear and continuous. This gives rise to the following continuous bilinear map:
+
+\[
+\psi : L(F; E) \times L(F; E) \to L(L(E; F); L(F; E)), \quad (A, B) \mapsto \psi(A, B).
+\]
+
+Observe that $\forall A \in \operatorname{Isom}(E; F)$, $\varphi'(A) = -\psi(\varphi(A), \varphi(A))$. Hence, by a routine induction argument, one obtains that $\varphi$ is of class $C^{\infty}$. Note that, in the special case $E = F = K^n$, where $n \in \mathbb{N}$, $\varphi \in C^{\infty}(GL_n(K))$ follows at once from the observation that each entry of $A^{-1}$ is a rational function defined on $GL_n(K)$ in the entries of $A$ (use Part III and VI of Exercise 31).
+
+\textbf{Remark 13:} An important implication of the last example is that if we assume the map $f$ to be of class $C^n$ in the hypothesis of the Inverse Mapping Theorem, where $n \in \mathbb{N}$, then the inverse map $f|_{\Omega}^{-1}$ belongs to $C^n(V)$. This can be easily proven by induction. From this, we can also conclude that the map $\varphi$ derived from the Implicit Mapping Theorem is of class $C^n$, provided that $f \in C^n(U \times V)$. Similarly, the diffeomorphisms $\varphi$ and $\psi$ mentioned in the conclusion of the Rank theorem are of class $C^n$ if $f \in C^n(U)$.
+
+
+\textbf{Exercise 35:}
+
+Let $n \in \mathbb{N}$, $E, F$ be Banach spaces over $K$ and $U \subseteq E$ be open.
+
+I. Show that if $f, g : U \to F$ are of class $C^n$, then $f \pm g \in C^n(U)$.
+
+II. Let $f : U \to F$ be a function of class $C^n$. Then, for any $\lambda \in K$, the function $\lambda f$ is also of class $C^n$.
+
+III. Show that if $f, g : U \to K$ are of class $C^n$, then $fg \in C^n(U)$.
+
+IV. Let $E = K$ and $A$ be a Banach algebra over $K$. Then show that $f, g : U \to A$ are of class $C^n \Longrightarrow fg \in C^n(U)$.
+
+V. Let $I \subseteq K$ be open. Suppose that $\lambda : I \to K$ and $f : U \to F$ are of class $C^n$. Then show that $\lambda f : I \times U \to F$ is of class $C^n$.
+
+VI. Assume that $F = K$ and $f : U \to K \setminus \{0\}$ is of class $C^n$. Show that $\frac{1}{f} \in C^n(U)$.
+
+Let $n \in \mathbb{N}$ and $U \subseteq_{open} \mathbb{R}^n$. We prove that there exists a $C^{\infty}$ function $f : U \to \mathbb{R}$ such that $f = 1$ on $K$ and $f = 0$ on $\mathbb{R}^n \setminus U$. The key idea behind this construction is that for given $0 < a < b$, there is a $C^{\infty}$ function defined on $\mathbb{R}$ which vanishes identically outside $[a, b]$. The following is an example of such a function:
+
+\[
+\varphi : \mathbb{R} \to \mathbb{R}, \quad \varphi(x) :=
+\begin{cases}
+e^{\left( \frac{1}{x-a} - \frac{1}{x-b} \right)}, & \text{if } a < x < b; \\
+0, & \text{otherwise.}
+\end{cases}
+\]
+
+From this, it is easy to construct a $h \in C^{\infty}(\mathbb{R})$ such that
+
+\[
+h(x) =
+\begin{cases}
+1, & \text{if } x \leq a; \\
+0, & \text{if } x \geq b.
+\end{cases}
+\]
+
+Using this, one constructs a smooth function $\psi : \mathbb{R}^n \to [0, \infty)$ such that
+
+\[
+\psi(x) =
+\begin{cases}
+1, & \text{if } \|x\| \leq a; \\
+0, & \text{if } \|x\| \geq b.
+\end{cases}
+\]
+
+Finally, with the help of a simple compactness argument, one constructs the desired $f$.
+
+
+\textbf{Corollary 5:} Let $n \in \mathbb{N}$, $U \subseteq \mathbb{R}^n$ be open, and $f : U \to \mathbb{R}$ be smooth. Then, for every $a \in U$, there exists an open neighborhood $V \subseteq U$ of $a$ and $g \in C^{\infty}(\mathbb{R}^n)$ such that $f = g$ on $V$. In fact, $g$ can be chosen so that $g \equiv 0$ on $\mathbb{R}^n \setminus U$.
+
+Let $[a, b] \subseteq \mathbb{R}$, where $a < b$ be a compact interval, $E, F$ be Banach spaces over $\mathbb{R}$, $U$ be an open subset of $E$, and $\varphi : [a, b] \times U \to F$ be continuous. A standard compactness argument shows the following:
+
+\[
+\forall x \in U \text{ and } \varepsilon > 0 \; \exists \delta > 0 \text{ such that } \|y - x\| < \delta \Longrightarrow \|\varphi(t, x) - \varphi(t, y)\| < \varepsilon, \text{ for all } t \in [a, b].
+\tag{29}
+\]
+
+\begin{center}
+    \textbf{\textit{Leibniz's Rule}}
+\end{center}
+
+\textbf{Leibniz's rule:} Let $E$ be a real Banach space, $U \subseteq E$ be open, $a < b$, and $f : [a, b] \times U \to \mathbb{R}$ be continuous. Consider
+
+\[
+F : U \to \mathbb{R}, \quad F(x) := \int_a^b f(t, x)\, dt.
+\tag{30}
+\]
+
+Then $F$ is continuous. If, in addition, $\frac{\partial f}{\partial x} : [a, b] \times U \to L(E; \mathbb{R})$ is continuous, then $F$ is continuously differentiable on $U$, and
+
+\[
+\forall x \in U, \quad F'(x)h = \int_a^b \frac{\partial f}{\partial x}(t, x)h \, dt, \text{ for all } h \in E.
+\tag{31}
+\]
+
+\textit{Note:} Since $\frac{\partial f}{\partial x} : [a, b] \times U \to L(E; \mathbb{R})$ is continuous, it satisfies (29). This helps us to estimate the following integral:
+
+\[
+\int_a^b \left\| f(t, x + h) - f(t, x) - \frac{\partial f}{\partial x}(t, x)h \right\| dt,
+\]
+
+once we apply the Mean Value Theorem to the integrand. The continuity of $F'$ also follows from (29) for $\varphi = \frac{\partial f}{\partial x}$.
+
+
+\textbf{Remark 14:} In the special case $E = \mathbb{R}^n$, where $n \in \mathbb{N}$, (31) becomes
+
+\[
+\forall x \in U, \quad F'(x)h = \sum_{j=1}^{n} h_j \int_a^b \frac{\partial f}{\partial x_j}(t, x)\, dt, \text{ for all } h \in \mathbb{R}^n.
+\]
+
+In particular, if $n = 1$, we have
+
+\[
+\forall x \in U, \quad F'(x) = \int_a^b \frac{\partial f}{\partial x}(t, x)\, dt.
+\]
+
+An interesting application of Leibniz's rule is the evaluation of the Gaussian integral $\int_0^{\infty} e^{-x^2} dx$. Using the comparison test, it is easy to see that this improper integral exists. We consider the functions $f, g : [0, \infty) \to \mathbb{R}$ defined as follows:
+
+\[
+f(x) := \left( \int_0^x e^{-t^2} dt \right)^2 \quad \text{and} \quad g(x) := \int_0^1 \frac{e^{-x^2(1+t^2)}}{1+t^2} dt.
+\]
+
+Then, for all $x \in \mathbb{R}$, one has $f'(x) = 2e^{-x^2} \int_0^x e^{-t^2} dt$, and
+
+\[
+g'(x) = -2e^{-x^2} \int_0^1 e^{-(xt)^2} dt = -2e^{-x^2} \int_0^x e^{-t^2} dt,
+\]
+
+by Leibniz's rule. This shows that $f' + g' \equiv 0$, consequently, $f + g \equiv f(0) + g(0) = \frac{\pi}{4}$. Now since
+
+\[
+0 \leq g(x) = \int_0^1 \frac{e^{-x^2(1+t^2)}}{1+t^2} dt \leq \left( \int_0^1 \frac{1}{1+t^2} dt \right) e^{-x^2} \xrightarrow[x \to \infty]{} 0,
+\]
+
+it follows that
+
+\[
+\int_0^{\infty} e^{-x^2} dx = \lim_{x \to \infty} \int_0^x e^{-t^2} dt = \lim_{x \to \infty} \sqrt{f(x)} = \sqrt{\lim_{x \to \infty} f(x)} = \frac{\sqrt{\pi}}{2}.
+\]
+
+
+\textbf{Exercise 36:}
+
+Let $n \in \mathbb{N}$ and $U \subseteq \mathbb{R}^n$ be open, and $f : U \to \mathbb{R}$ be a $C^k$ function, where $k \in \mathbb{N}$. Suppose that $a = (a_1, \ldots, a_n) \in U$ and $r > 0$ is such that $B(a; r) \subseteq U$. Show that there exists $C^{k-1}$ functions $f_j : B(a; r) \to \mathbb{R}$, for $j = 1, \ldots, n$, such that
+
+\[
+f(x) = f(a) + \sum_{j=1}^{n} (x_j - a_j) f_j(x), \quad \forall x = (x_1, \ldots, x_n) \in B(a; r).
+\]
+
+\textit{Hints:} From the Fundamental Theorem of Calculus, we have
+
+\[
+f(x) = f(a) + \int_0^1 f'(a + t(x - a))(x - a) \, dt
+= f(a) + \sum_{j=1}^{n} (x_j - a_j) \int_0^1 \frac{\partial f}{\partial x_j}(a + t(x - a)) \, dt.
+\]
+
+\textbf{Exercise 37:}
+
+Let $n \in \mathbb{N}$ and $U \subseteq \mathbb{R}^n$ be open, and $f : U \to \mathbb{R}$ be a $C^k$ function, where $k \in \mathbb{N}$. Suppose that $a = (a_1, \ldots, a_n) \in U$ and $r > 0$ is such that $B(a; r) \subseteq U$. Show that there exists $C^{k-1}$ functions $f_j : B(a; r) \to \mathbb{R}$, for $j = 1, \ldots, n$, such that
+
+\[
+f(x) = f(a) + \sum_{j=1}^{n} (x_j - a_j) f_j(x), \quad \forall x = (x_1, \ldots, x_n) \in B(a; r).
+\]
+
+\textit{Hint:} From the Fundamental Theorem of Calculus, we have
+
+\[
+f(x) = f(a) + \int_0^1 f'(a + t(x - a))(x - a)\, dt
+= f(a) + \sum_{j=1}^{n} (x_j - a_j) \int_0^1 \frac{\partial f}{\partial x_j}(a + t(x - a))\, dt.
+\]
+
+Note that each $\frac{\partial f}{\partial x_j}$ is of class $C^{k-1}$ if $f \in C^k(U)$. Now use the last exercise.
+
+\textbf{Exercise 38:}
+
+Let $n \in \mathbb{N}$ and $a \in \mathbb{R}^n$. Consider the following set
+
+\[
+\mathcal{S} := \{(U,f) : a \in U \subseteq_{open} \mathbb{R}^n \text{ and } f : U \to \mathbb{R} \text{ is of class } C^{\infty}\}.
+\]
+
+For any given $(U,f)$ and $(W,g) \in \mathcal{S}$, we say that they are equivalent if there exists an open neighbourhood, say $\Omega$ of $a$ such that $\Omega \subseteq U \cap W$ and $f|_U = g|_W$ on $\Omega$. This introduces an equivalence relation on $\mathcal{S}$. The equivalence classes are called \textit{germs} of $C^{\infty}$ functions at $a$, and the set of all germs of $C^{\infty}$ functions at $a$ is denoted by $\mathcal{O}_a$. If $(U,f) \in \mathcal{S}$, we let $[f]$ stand for the germ of $f$ at $a$.
+
+\begin{enumerate}
+\item Show that the operations of addition, scalar multiplication, and multiplication of functions induce the structure of an $\mathbb{R}$ algebra on $\mathcal{O}_a$.
+
+\item Consider $\mathfrak{m}_a := \{[f] \in \mathcal{O}_a : f(a)=0\}$. Show that $\mathfrak{m}_a$ is an ideal of $\mathcal{O}_a$.
+
+\item Show that $\mathfrak{m}_a/\mathfrak{m}_a^2$ is an $n$ dimensional real vector space.
+
+\textit{Hint:} For any $[f] \in \mathfrak{m}_a$, one has the following for all $x$ sufficiently close to $a$:
+
+\[
+f(x)=\sum_{j=1}^{n}\frac{\partial f}{\partial x_j}(a)(x_j-a_j)
++\sum_{k=1}^{n}\sum_{\ell=1}^{n}(x_k-a_k)(x_\ell-a_\ell)
+\int_{0}^{1}\frac{\partial^2 f}{\partial x_k\partial x_\ell}(a+t(x-a))\,dt,
+\]
+
+where $a=(a_1,\dots,a_n)$.
+
+\item A \textit{linear derivation} of the $\mathbb{R}$ algebra $\mathcal{O}_a$ is a linear map $d:\mathcal{O}_a\to\mathbb{R}$ satisfying the following property:
+
+\[
+d([f][g]) = f(a)d([g]) + g(a)d([f]), \quad \text{for all } [f],[g]\in\mathcal{O}_a.
+\]
+
+Let $v\in\mathbb{R}^n$. Show that the following is well-defined and defines a linear derivation on $\mathcal{O}_a$:
+
+\[
+\nabla_v:\mathcal{O}_a\to\mathbb{R}, \qquad \nabla_v([f]) := \nabla f(a)(v).
+\]
+
+\item Show that $\nabla_v$ are precisely all linear derivations of $\mathcal{O}_a$, i.e., if $d$ is a linear derivation of $\mathcal{O}_a$, then there exists a unique $v\in\mathbb{R}^n$ such that $d=\nabla_v$.
+
+\textit{Hint:} First observe that $d([f])=0$ if $f$ is constant on a neighbourhood of $a$. Now use Exercise 37 to obtain
+
+\[
+d([f])=\sum_{i=1}^{n} d(x_i)\frac{\partial f}{\partial x_i}(a).
+\]
+\end{enumerate}
+
+
+\end{document}
